@@ -1,0 +1,100 @@
+.uploadContainer {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+  height: 100%;
+
+  .dropzone {
+    border: 2px dashed #e0e5f2;
+    border-radius: 15px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f7f9ff;
+
+    &:hover {
+      border-color: #0061ff;
+      background: #f0f4ff;
+    }
+
+    .iconBox {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 50%;
+      box-shadow: 0px 10px 20px rgba(0, 97, 255, 0.1);
+      margin-bottom: 20px;
+      color: #0061ff;
+    }
+
+    p {
+      color: #2b3674;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+  }
+
+  .previewWrapper {
+    position: relative;
+    width: 100%;
+    
+    .imgPreview {
+      width: 100%;
+      height: 400px;
+      object-fit: contain;
+      border-radius: 15px;
+      background: #2b3674;
+    }
+
+    .scanningLine {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(to right, transparent, #0061ff, transparent);
+      box-shadow: 0 0 15px #0061ff;
+      animation: scan 2s linear infinite;
+    }
+  }
+
+  .actionGroup {
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
+
+    .btnMain {
+      flex: 2;
+      background: linear-gradient(135deg, #0061ff 0%, #003eb3 100%);
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0px 10px 20px rgba(0, 97, 255, 0.2);
+      &:disabled { opacity: 0.6; }
+    }
+
+    .btnReset {
+      flex: 1;
+      background: #fff;
+      border: 1px solid #e0e5f2;
+      color: #ee5d50;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  }
+}
+
+@keyframes scan {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
