@@ -1,2 +1,2 @@
 // src/pages/tutor/detection/index.js
-export { default } from './detection';
+export { default as Detection } from './customer/detection/Detection';

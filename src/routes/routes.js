@@ -1,9 +1,11 @@
 // src/routes/routes.js
-import Detection from '../pages/tutor/detection/Detection.jsx'; 
+import {Detection} from '../pages'; 
 
-export const routes = [
+const customRoutes = [
     {
-        path: '/tutor/detection',
+        path: '/customer/detection',
         component: Detection
     }
 ];
+
+export default customRoutes;
