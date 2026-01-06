@@ -1,0 +1,95 @@
+/* Reset nhẹ */
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  body {
+    margin: 0;
+    background-color: #f4f6f8;
+  }
+  
+  /* Khung app */
+  .app-container {
+    padding: 30px;
+  }
+  
+  /* Tiêu đề */
+  .app-title {
+    text-align: center;
+    color: #1e3a8a;
+    margin-bottom: 30px;
+  }
+  
+  /* Khung quản lý */
+  .admin-box {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Bảng */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+  
+  thead {
+    background-color: #2563eb;
+    color: white;
+  }
+  
+  th, td {
+    padding: 12px;
+    text-align: center;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #f1f5f9;
+  }
+  
+  tbody tr:hover {
+    background-color: #e0e7ff;
+  }
+  
+  /* Trạng thái */
+  .status-active {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .status-locked {
+    color: red;
+    font-weight: bold;
+  }
+  
+  /* Button */
+  button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 3px;
+  }
+  
+  .btn-lock {
+    background-color: #f59e0b;
+    color: white;
+  }
+  
+  .btn-unlock {
+    background-color: #22c55e;
+    color: white;
+  }
+  
+  .btn-delete {
+    background-color: #ef4444;
+    color: white;
+  }
+  
+  button:hover {
+    opacity: 0.85;
+  }
+  
