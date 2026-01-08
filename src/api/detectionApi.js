@@ -13,6 +13,26 @@ const detectionApi = {
                 'Content-Type': 'multipart/form-data',
             },
         });
+    },
+    /**
+     * 2. Lấy danh sách biển báo đã nhận diện (quản lý biển báo)
+     */
+    getAllDetections: () => {
+        return axiosClient.get('/detection/list/');
+    },
+
+    /**
+     * 3. Lấy chi tiết 1 biển báo theo ID
+     */
+    getDetectionById: (id) => {
+        return axiosClient.get(`/detection/${id}/`);
+    },
+
+    /**
+     * 4. Lấy dữ liệu thống kê cho Dashboard
+     */
+    getDetectionStats: () => {
+        return axiosClient.get('/detection/stats/');
     }
 };
 
