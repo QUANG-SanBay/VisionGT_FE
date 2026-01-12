@@ -1,18 +1,10 @@
-import { useState } from 'react'
-
-import './App.css'
-
-// src/App.jsx
-import { BrowserRouter } from 'react-router-dom';
-import AppRouter from './routes/AppRouter';
-import AdminNav from './components/AdminNav';
+import { BrowserRouter } from "react-router-dom";
+import AuthRoutes from "./routes/authRoutes";
 
 function App() {
   return (
     <BrowserRouter>
-      {/* Top navigation with admin links (kept minimal) */}
-      <AdminNav />
-      <AppRouter />
+      <AuthRoutes />
     </BrowserRouter>
   );
 }

@@ -1,0 +1,116 @@
+/* ===== NỀN TOÀN MÀN HÌNH ===== */
+.auth-container {
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(135deg, #0f4c81, #1976d2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* ===== BỐ CỤC GIỮA ===== */
+  .traffic-layout {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+  }
+  
+  /* ===== ICON GIAO THÔNG ===== */
+  .traffic-icons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  /* BẢNG CẤM */
+  .sign-ban {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 6px solid #ff4d4f;
+    color: #ff4d4f;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+  }
+  
+  /* BẢNG CHỈ DẪN */
+  .sign-guide {
+    width: 80px;
+    height: 80px;
+    background: #ffffff;
+    color: #0f4c81;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* ===== ĐÈN GIAO THÔNG ===== */
+  .traffic-light {
+    width: 48px;
+    background: #111827;
+    padding: 8px;
+    border-radius: 10px;
+  }
+  
+  .light {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #9ca3af;
+    margin: 8px auto;
+  }
+  
+  .light.red {
+    background: #ff4d4f;
+  }
+  
+  .light.green {
+    background: #22c55e;
+  }
+  
+  /* ===== FORM (KHÔNG CÒN KHUNG CỨNG) ===== */
+  .auth-box {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 32px;
+    width: 340px;
+    border-radius: 16px;
+    box-shadow: none; /* ❌ bỏ khung */
+  }
+  
+  /* ===== TIÊU ĐỀ ===== */
+  .auth-box h2 {
+    text-align: center;
+    color: #0f4c81;
+    margin-bottom: 20px;
+  }
+  
+  /* ===== INPUT ===== */
+  .auth-box input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 14px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+  }
+  
+  /* ===== BUTTON ===== */
+  .auth-box button {
+    width: 100%;
+    padding: 12px;
+    background: #0f4c81;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .auth-box button:hover {
+    background: #09355f;
+  }
+  
