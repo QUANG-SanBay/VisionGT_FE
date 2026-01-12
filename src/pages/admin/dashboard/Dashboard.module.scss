@@ -1,12 +1,25 @@
 .dashboardPage {
-	padding: 24px;
-	background-color: #fafafa;
+	padding: 32px;
+	background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 	min-height: 100vh;
 
-	h1 {
-		margin-bottom: 16px;
-		font-size: 28px;
-		color: #333;
+	.headerSection {
+		margin-bottom: 32px;
+
+		.pageTitle {
+			margin: 0 0 12px 0;
+			font-size: 32px;
+			font-weight: 700;
+			color: #2c3e50;
+			letter-spacing: -0.5px;
+		}
+
+		.pageSubtitle {
+			margin: 0;
+			font-size: 16px;
+			color: #7f8c8d;
+			font-weight: 400;
+		}
 	}
 
 	.loadingContainer {
@@ -14,40 +27,157 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		min-height: 300px;
-		gap: 12px;
+		min-height: 400px;
+		gap: 16px;
+
+		p {
+			font-size: 16px;
+			color: #7f8c8d;
+		}
 	}
 
-	.typeRow {
+	// Stat Cards
+	.statCard {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+		padding: 24px;
+		background: white;
+		border-radius: 12px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+		transition: all 0.3s ease;
+		border-left: 4px solid #3f51b5;
+
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+		}
+
+		.statIcon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 60px;
+			height: 60px;
+			border-radius: 10px;
+			background: rgba(63, 81, 181, 0.1);
+			color: #3f51b5;
+			flex-shrink: 0;
+
+			&.iconSuccess {
+				background: rgba(76, 175, 80, 0.1);
+				color: #4caf50;
+			}
+
+			&.iconWarning {
+				background: rgba(255, 152, 0, 0.1);
+				color: #ff9800;
+			}
+
+			&.iconInfo {
+				background: rgba(33, 150, 243, 0.1);
+				color: #2196f3;
+			}
+		}
+
+		.statContent {
+			flex: 1;
+		}
+	}
+
+	.statLabel {
+		font-size: 13px;
+		color: #95a5a6;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		display: block;
+		margin-bottom: 8px;
+	}
+
+	.statValue {
+		font-size: 28px !important;
+		font-weight: 700 !important;
+		color: #2c3e50 !important;
+		display: block;
+		margin-bottom: 4px;
+	}
+
+	.statDesc {
+		font-size: 13px !important;
+		color: #bdc3c7 !important;
+		font-weight: 400 !important;
+	}
+
+	// Chart Card
+	.chartCard {
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+		border-radius: 12px !important;
+		overflow: hidden;
+
+		:global(.MuiCardContent-root) {
+			padding: 28px !important;
+		}
+	}
+
+	.chartTitle {
+		font-size: 20px !important;
+		font-weight: 700 !important;
+		color: #2c3e50 !important;
+		margin-bottom: 24px !important;
+		display: block;
+	}
+
+	.chartContainer {
 		display: flex;
 		flex-direction: column;
-		gap: 8px;
-		margin-bottom: 12px;
+		gap: 20px;
 	}
 
-	.typeLabel {
+	.typeItem {
 		display: flex;
-		justify-content: space-between;
+		align-items: center;
+		gap: 16px;
+	}
+
+	.typeInfo {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		min-width: 180px;
+	}
+
+	.typeBadge {
+		display: inline-block;
+		padding: 6px 12px;
+		border-radius: 8px;
+		color: white;
+		font-weight: 600;
 		font-size: 14px;
-		color: #333;
+		text-align: center;
+		min-width: 70px;
 	}
 
 	.typeCount {
-		color: #666;
-		margin-left: 8px;
+		font-size: 14px;
+		color: #34495e;
 		font-weight: 500;
+		white-space: nowrap;
 	}
 
-	.barBackground {
-		width: 100%;
-		height: 10px;
-		background: #eee;
-		border-radius: 6px;
+	.barContainer {
+		flex: 1;
+		height: 24px;
+		background: #ecf0f1;
+		border-radius: 8px;
 		overflow: hidden;
+		box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
 	}
 
 	.barFill {
 		height: 100%;
-		background: linear-gradient(90deg, #3f51b5, #2196f3);
+		transition: width 0.5s ease;
+		border-radius: 8px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	}
 }

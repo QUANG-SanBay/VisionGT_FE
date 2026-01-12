@@ -15,7 +15,7 @@ import {
     TextField,
     InputAdornment,
 } from '@mui/material';
-import { Search as SearchIcon } from 'lucide-react';
+import { Search as SearchIcon, RefreshCw, Eye, AlertTriangle } from 'lucide-react';
 import styles from './Detections.module.scss';
 import detectionApi from '../../../api/detectionApi';
 
@@ -97,101 +97,132 @@ const DetectionList = () => {
 
     return (
         <div className={styles.detectionListPage}>
-            <Box className={styles.header}>
-                <h1>Danh sách biển báo</h1>
-                <Button variant="contained" onClick={handleRefresh} color="primary">
+            <Box className={styles.headerSection}>
+                <h1 className={styles.pageTitle}>🚗 Quản Lý Phát Hiện Biển Báo</h1>
+                <p className={styles.pageSubtitle}>Danh sách toàn bộ biển báo đã được hệ thống nhận diện</p>
+            </Box>
+
+            <Box className={styles.toolbarSection}>
+                <Box className={styles.searchBox}>
+                    <TextField
+                        variant="outlined"
+                        placeholder="🔍 Tìm kiếm theo ID hoặc tên..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <SearchIcon size={20} />
+                                </InputAdornment>
+                            ),
+                        }}
+                        fullWidth
+                        className={styles.searchInput}
+                    />
+                </Box>
+                <Button 
+                    variant="contained" 
+                    onClick={handleRefresh} 
+                    color="primary"
+                    startIcon={<RefreshCw size={20} />}
+                    className={styles.refreshBtn}
+                >
                     Làm mới
                 </Button>
             </Box>
 
             {error && (
-                <Alert severity="warning" style={{ marginBottom: '16px' }}>
+                <Alert severity="warning" style={{ marginBottom: '20px' }} icon={<AlertTriangle size={20} />}>
                     {error}
                 </Alert>
             )}
 
-            <Box className={styles.searchBox}>
-                <TextField
-                    variant="outlined"
-                    placeholder="Tìm kiếm theo ID hoặc tên..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <SearchIcon size={20} />
-                            </InputAdornment>
-                        ),
-                    }}
-                    fullWidth
-                />
-            </Box>
+            {filteredDetections.length > 0 ? (
+                <>
+                    <Box className={styles.statsBox}>
+                        <Box className={styles.statItem}>
+                            <span className={styles.statLabel}>Tổng phát hiện</span>
+                            <span className={styles.statNumber}>{filteredDetections.length}</span>
+                        </Box>
+                        <Box className={styles.statItem}>
+                            <span className={styles.statLabel}>Độ chính xác TB</span>
+                            <span className={styles.statNumber}>
+                                {Math.round(
+                                    filteredDetections.reduce((sum, d) => sum + (d.confidence || 0), 0) /
+                                    filteredDetections.length
+                                )}%
+                            </span>
+                        </Box>
+                    </Box>
 
-            <TableContainer component={Paper}>
-                <Table>
-                    <TableHead>
-                        <TableRow style={{ backgroundColor: '#f5f5f5' }}>
-                            <TableCell align="center"><strong>ID</strong></TableCell>
-                            <TableCell><strong>Ảnh</strong></TableCell>
-                            <TableCell><strong>Loại biển báo</strong></TableCell>
-                            <TableCell align="center"><strong>Độ chính xác</strong></TableCell>
-                            <TableCell><strong>Ngày phát hiện</strong></TableCell>
-                            <TableCell align="center"><strong>Hành động</strong></TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {filteredDetections.length > 0 ? (
-                            filteredDetections.map((detection) => (
-                                <TableRow key={detection.id} hover>
-                                    <TableCell align="center">{detection.id}</TableCell>
-                                    <TableCell>
-                                        <img
-                                            src={detection.image}
-                                            alt={detection.name}
-                                            style={{
-                                                width: '50px',
-                                                height: '50px',
-                                                objectFit: 'cover',
-                                                borderRadius: '4px',
-                                            }}
-                                        />
-                                    </TableCell>
-                                    <TableCell>
-                                        <div>
-                                            <div><strong>{detection.type}</strong></div>
-                                            <div style={{ fontSize: '12px', color: '#666' }}>
-                                                {detection.name}
-                                            </div>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell align="center">{detection.confidence}%</TableCell>
-                                    <TableCell>{detection.detectedAt}</TableCell>
-                                    <TableCell align="center">
-                                        <Button
-                                            variant="outlined"
-                                            size="small"
-                                            onClick={() => handleViewDetail(detection.id)}
-                                            color="primary"
-                                        >
-                                            Xem chi tiết
-                                        </Button>
-                                    </TableCell>
+                    <TableContainer component={Paper} className={styles.tableContainer}>
+                        <Table>
+                            <TableHead>
+                                <TableRow className={styles.tableHeader}>
+                                    <TableCell align="center" className={styles.headerCell}>ID</TableCell>
+                                    <TableCell className={styles.headerCell}>Ảnh</TableCell>
+                                    <TableCell className={styles.headerCell}>Loại Biển Báo</TableCell>
+                                    <TableCell align="center" className={styles.headerCell}>Độ Chính Xác</TableCell>
+                                    <TableCell className={styles.headerCell}>Ngày Phát Hiện</TableCell>
+                                    <TableCell align="center" className={styles.headerCell}>Hành Động</TableCell>
                                 </TableRow>
-                            ))
-                        ) : (
-                            <TableRow>
-                                <TableCell colSpan={6} align="center" style={{ padding: '32px' }}>
-                                    Không tìm thấy dữ liệu
-                                </TableCell>
-                            </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-
-            <Box className={styles.footer}>
-                <p>Tổng cộng: {filteredDetections.length} biển báo</p>
-            </Box>
+                            </TableHead>
+                            <TableBody>
+                                {filteredDetections.map((detection) => (
+                                    <TableRow key={detection.id} className={styles.tableRow}>
+                                        <TableCell align="center" className={styles.idCell}>
+                                            <Box className={styles.idBadge}>#{detection.id}</Box>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Box className={styles.imageWrapper}>
+                                                <img
+                                                    src={detection.image}
+                                                    alt={detection.name}
+                                                    className={styles.signImage}
+                                                />
+                                            </Box>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Box className={styles.typeInfo}>
+                                                <Box className={styles.typeBadge}>{detection.type}</Box>
+                                                <span className={styles.typeName}>{detection.name}</span>
+                                            </Box>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <Box className={styles.confidenceBar}>
+                                                <Box 
+                                                    className={styles.confidenceFill}
+                                                    style={{ width: `${detection.confidence}%` }}
+                                                />
+                                                <span className={styles.confidenceText}>{detection.confidence}%</span>
+                                            </Box>
+                                        </TableCell>
+                                        <TableCell>
+                                            <span className={styles.dateText}>{detection.detectedAt}</span>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <Button
+                                                variant="contained"
+                                                size="small"
+                                                onClick={() => handleViewDetail(detection.id)}
+                                                startIcon={<Eye size={16} />}
+                                                className={styles.viewBtn}
+                                            >
+                                                Chi tiết
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </>
+            ) : (
+                <Card className={styles.emptyCard}>
+                    <AlertTriangle size={48} className={styles.emptyIcon} />
+                    <p className={styles.emptyText}>Không tìm thấy dữ liệu</p>
+                </Card>
+            )}
         </div>
     );
 };

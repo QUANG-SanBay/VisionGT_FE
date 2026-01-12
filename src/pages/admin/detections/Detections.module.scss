@@ -1,28 +1,275 @@
 .detectionListPage {
-    padding: 24px;
-    background-color: #f9f9f9;
+    padding: 32px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     min-height: 100vh;
 
-    .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 24px;
+    .headerSection {
+        margin-bottom: 32px;
 
-        h1 {
+        .pageTitle {
+            margin: 0 0 12px 0;
+            font-size: 32px;
+            font-weight: 700;
+            color: #2c3e50;
+            letter-spacing: -0.5px;
+        }
+
+        .pageSubtitle {
             margin: 0;
-            font-size: 28px;
-            font-weight: 600;
-            color: #333;
+            font-size: 16px;
+            color: #7f8c8d;
+            font-weight: 400;
         }
     }
 
-    .searchBox {
-        margin-bottom: 20px;
+    .toolbarSection {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 28px;
+        align-items: center;
+        flex-wrap: wrap;
 
-        input {
-            padding: 12px;
-            border-radius: 8px;
+        .searchBox {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .searchInput {
+            :global(.MuiOutlinedInput-root) {
+                background: white;
+                border-radius: 10px;
+                transition: all 0.3s ease;
+
+                &:hover {
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                }
+
+                &.Mui-focused {
+                    box-shadow: 0 4px 20px rgba(63, 81, 181, 0.2);
+                }
+            }
+        }
+
+        .refreshBtn {
+            border-radius: 10px !important;
+            padding: 10px 24px !important;
+            font-weight: 600 !important;
+            text-transform: none !important;
+            box-shadow: 0 2px 8px rgba(63, 81, 181, 0.3) !important;
+            transition: all 0.3s ease !important;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(63, 81, 181, 0.4) !important;
+            }
+        }
+    }
+
+    .statsBox {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+    }
+
+    .statItem {
+        flex: 1;
+        min-width: 200px;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+        .statLabel {
+            font-size: 13px;
+            color: #95a5a6;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .statNumber {
+            font-size: 28px;
+            font-weight: 700;
+            color: #3f51b5;
+        }
+    }
+
+    .tableContainer {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+        border-radius: 12px !important;
+        overflow: hidden;
+
+        :global(.MuiPaper-root) {
+            border-radius: 12px;
+        }
+    }
+
+    .tableHeader {
+        background: linear-gradient(90deg, #3f51b5, #5c6bc0) !important;
+
+        .headerCell {
+            color: white !important;
+            font-weight: 700 !important;
+            font-size: 14px !important;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 16px !important;
+        }
+    }
+
+    .tableRow {
+        transition: all 0.3s ease;
+        border-bottom: 1px solid #ecf0f1;
+
+        &:hover {
+            background-color: #f8f9ff !important;
+            box-shadow: inset 0 0 8px rgba(63, 81, 181, 0.08);
+        }
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    .idCell {
+        padding: 16px !important;
+    }
+
+    .idBadge {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+    .imageWrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .signImage {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        transition: transform 0.3s ease;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+
+    .typeInfo {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .typeBadge {
+        display: inline-block;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 12px;
+        width: fit-content;
+        text-transform: uppercase;
+    }
+
+    .typeName {
+        font-size: 14px;
+        color: #34495e;
+        font-weight: 500;
+    }
+
+    .confidenceBar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        position: relative;
+        height: 32px;
+        background: #ecf0f1;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .confidenceFill {
+        position: absolute;
+        height: 100%;
+        background: linear-gradient(90deg, #4caf50 0%, #8bc34a 100%);
+        transition: width 0.3s ease;
+        border-radius: 8px;
+    }
+
+    .confidenceText {
+        position: relative;
+        z-index: 1;
+        margin-left: 8px;
+        font-weight: 700;
+        color: #2c3e50;
+        font-size: 13px;
+    }
+
+    .dateText {
+        color: #7f8c8d;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    .viewBtn {
+        border-radius: 8px !important;
+        padding: 6px 16px !important;
+        font-weight: 600 !important;
+        text-transform: none !important;
+        box-shadow: 0 2px 6px rgba(63, 81, 181, 0.2) !important;
+        transition: all 0.3s ease !important;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(63, 81, 181, 0.3) !important;
+        }
+    }
+
+    .emptyCard {
+        padding: 60px 20px !important;
+        text-align: center;
+        background: white;
+        border-radius: 12px !important;
+
+        .emptyIcon {
+            color: #bdc3c7;
+            margin-bottom: 16px;
+        }
+
+        .emptyText {
+            font-size: 16px;
+            color: #7f8c8d;
+            margin: 0;
+        }
+    }
+
+    .footer {
+        margin-top: 20px;
+        text-align: right;
+        color: #7f8c8d;
+        font-size: 14px;
+        font-weight: 500;
+
+        p {
+            margin: 0;
         }
     }
 
@@ -36,20 +283,223 @@
 
         p {
             font-size: 16px;
-            color: #666;
+            color: #7f8c8d;
         }
-    }
-
-    .footer {
-        margin-top: 16px;
-        text-align: right;
-        color: #666;
-        font-size: 14px;
     }
 }
 
 .detectionDetailPage {
-    padding: 24px;
-    background-color: #f9f9f9;
+    padding: 32px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     min-height: 100vh;
+
+    .detailHeader {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 32px;
+
+        .backBtn {
+            border-radius: 10px !important;
+            text-transform: none !important;
+            font-weight: 600 !important;
+            padding: 8px 16px !important;
+        }
+
+        .detailTitle {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+    }
+
+    .detailContainer {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+        align-items: start;
+
+        @media (max-width: 1024px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .imageCard {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+        border-radius: 12px !important;
+        overflow: hidden;
+
+        :global(.MuiCardMedia-root) {
+            height: 400px;
+        }
+    }
+
+    .detailImage {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .detailContent {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .infoCard {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+        border-radius: 12px !important;
+
+        :global(.MuiCardContent-root) {
+            padding: 28px !important;
+        }
+    }
+
+    .titleSection {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        gap: 16px;
+        margin-bottom: 24px;
+        padding-bottom: 24px;
+        border-bottom: 2px solid #ecf0f1;
+
+        .detailName {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            flex: 1;
+        }
+
+        .confidenceBadge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #4caf50, #8bc34a);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+    }
+
+    .infoGrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 24px;
+
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .infoItem {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .infoLabel {
+            font-size: 12px;
+            color: #95a5a6;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .infoValue {
+            font-size: 18px;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+    }
+
+    .typeBadgeDetail {
+        display: inline-block;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 14px;
+        text-transform: uppercase;
+        width: fit-content;
+    }
+
+    .confidenceDetailBar {
+        width: 100%;
+        height: 8px;
+        background: #ecf0f1;
+        border-radius: 8px;
+        overflow: hidden;
+        margin: 8px 0;
+    }
+
+    .confidenceDetailFill {
+        height: 100%;
+        background: linear-gradient(90deg, #4caf50, #8bc34a);
+        border-radius: 8px;
+    }
+
+    .confidencePercent {
+        font-size: 14px;
+        color: #2c3e50;
+        font-weight: 700;
+    }
+
+    .descriptionSection {
+        padding-top: 24px;
+        border-top: 2px solid #ecf0f1;
+
+        h3 {
+            margin: 0 0 12px 0;
+            font-size: 16px;
+            font-weight: 700;
+            color: #2c3e50;
+            text-transform: uppercase;
+        }
+
+        p {
+            margin: 0;
+            font-size: 14px;
+            color: #34495e;
+            line-height: 1.6;
+        }
+    }
+
+    .emptyCard {
+        padding: 60px 20px !important;
+        text-align: center;
+        background: white;
+        border-radius: 12px !important;
+
+        .emptyIcon {
+            color: #bdc3c7;
+            margin-bottom: 16px;
+        }
+
+        .emptyText {
+            font-size: 16px;
+            color: #7f8c8d;
+            margin: 0;
+        }
+    }
+
+    .loadingContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 400px;
+        gap: 16px;
+
+        p {
+            font-size: 16px;
+            color: #7f8c8d;
+        }
+    }
 }

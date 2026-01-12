@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button, CircularProgress, Card, CardMedia, CardContent } from '@mui/material';
+import { Button, CircularProgress, Card, CardMedia, CardContent, Box, Alert } from '@mui/material';
+import { ArrowLeft, AlertTriangle, CheckCircle } from 'lucide-react';
 import styles from './Detections.module.scss';
 import detectionApi from '../../../api/detectionApi';
 
@@ -57,36 +58,89 @@ const DetectionDetail = () => {
 
     return (
         <div className={styles.detectionDetailPage}>
-            <Button variant="outlined" onClick={() => navigate(-1)} style={{ marginBottom: 16 }}>
-                Quay lại
-            </Button>
+            <Box className={styles.detailHeader}>
+                <Button 
+                    variant="outlined" 
+                    onClick={() => navigate(-1)}
+                    startIcon={<ArrowLeft size={20} />}
+                    className={styles.backBtn}
+                >
+                    Quay lại
+                </Button>
+                <h1 className={styles.detailTitle}>📋 Chi Tiết Biển Báo</h1>
+            </Box>
 
             {error && (
-                <div style={{ marginBottom: 12, color: '#d9534f' }}>{error}</div>
+                <Alert severity="warning" style={{ marginBottom: 24 }} icon={<AlertTriangle size={20} />}>
+                    {error}
+                </Alert>
             )}
 
             {detection ? (
-                <Card>
-                    {/* Hình ảnh biển báo */}
-                    <CardMedia
-                        component="img"
-                        height="360"
-                        image={detection.image}
-                        alt={detection.name}
-                    />
+                <Box className={styles.detailContainer}>
+                    <Card className={styles.imageCard}>
+                        <CardMedia
+                            component="img"
+                            image={detection.image}
+                            alt={detection.name}
+                            className={styles.detailImage}
+                        />
+                    </Card>
 
-                    <CardContent>
-                        {/* Thông tin cơ bản */}
-                        <h2 style={{ margin: '8px 0' }}>{detection.name}</h2>
-                        <p><strong>ID:</strong> {detection.id}</p>
-                        <p><strong>Loại:</strong> {detection.type}</p>
-                        <p><strong>Độ chính xác:</strong> {detection.confidence}%</p>
-                        <p><strong>Ngày phát hiện:</strong> {detection.detectedAt}</p>
-                        <p><strong>Mô tả:</strong> {detection.description || 'Không có mô tả'}</p>
-                    </CardContent>
-                </Card>
+                    <Box className={styles.detailContent}>
+                        <Card className={styles.infoCard}>
+                            <CardContent>
+                                {/* Tiêu đề */}
+                                <Box className={styles.titleSection}>
+                                    <h2 className={styles.detailName}>{detection.name}</h2>
+                                    <Box className={styles.confidenceBadge}>
+                                        <CheckCircle size={20} />
+                                        <span>{detection.confidence}% Tin cậy</span>
+                                    </Box>
+                                </Box>
+
+                                {/* Thông tin grid */}
+                                <Box className={styles.infoGrid}>
+                                    <Box className={styles.infoItem}>
+                                        <span className={styles.infoLabel}>ID</span>
+                                        <span className={styles.infoValue}>#{detection.id}</span>
+                                    </Box>
+                                    <Box className={styles.infoItem}>
+                                        <span className={styles.infoLabel}>Loại Biển Báo</span>
+                                        <Box className={styles.typeBadgeDetail}>{detection.type}</Box>
+                                    </Box>
+                                    <Box className={styles.infoItem}>
+                                        <span className={styles.infoLabel}>Ngày Phát Hiện</span>
+                                        <span className={styles.infoValue}>{detection.detectedAt}</span>
+                                    </Box>
+                                    <Box className={styles.infoItem}>
+                                        <span className={styles.infoLabel}>Độ Chính Xác</span>
+                                        <Box className={styles.confidenceDetailBar}>
+                                            <Box 
+                                                className={styles.confidenceDetailFill}
+                                                style={{ width: `${detection.confidence}%` }}
+                                            />
+                                        </Box>
+                                        <span className={styles.confidencePercent}>{detection.confidence}%</span>
+                                    </Box>
+                                </Box>
+
+                                {/* Mô tả */}
+                                {detection.description && (
+                                    <Box className={styles.descriptionSection}>
+                                        <h3>Mô Tả</h3>
+                                        <p>{detection.description}</p>
+                                    </Box>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </Box>
+                </Box>
             ) : (
-                <div>Không có dữ liệu để hiển thị</div>
+                <Card className={styles.emptyCard}>
+                    <AlertTriangle size={48} className={styles.emptyIcon} />
+                    <p className={styles.emptyText}>Không có dữ liệu để hiển thị</p>
+                </Card>
             )}
         </div>
     );
