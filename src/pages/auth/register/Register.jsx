@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { registerApi } from "../../../api/auth";
-import "./Register.css";
+import "../login/Login.css";
+import bg from "../../../assets/traffic-bg.jpg";
 
 function Register() {
   const [form, setForm] = useState({
@@ -22,22 +23,36 @@ function Register() {
     }
 
     try {
-        await registerApi({
-            email: form.email,
-            password: form.password,
-          });          
-    } catch (err) {
+      await registerApi({
+        email: form.email,
+        password: form.password,
+      });
+      alert("Đăng ký thành công");
+    } catch {
       alert("Đăng ký thất bại");
     }
   };
 
   return (
-    <div className="auth-container">
+    <div
+      className="auth-container"
+      style={{
+        background: `url(${bg}) no-repeat center center`,
+        backgroundSize: "cover",
+      }}
+    >
       <div className="traffic-layout">
 
+        {/* CỘT CHỦ ĐỀ */}
         <div className="traffic-icons">
           <div className="sign-ban">CẤM</div>
-          <div className="sign-guide">REGISTER</div>
+
+          <div className="sign-guide">
+            HỆ THỐNG<br />
+            NHẬN DIỆN<br />
+            BIỂN BÁO<br />
+            THÔNG MINH
+          </div>
 
           <div className="traffic-light">
             <div className="light red"></div>
@@ -46,14 +61,39 @@ function Register() {
           </div>
         </div>
 
+        {/* FORM ĐĂNG KÝ */}
         <form className="auth-box" onSubmit={handleSubmit}>
           <h2>Đăng ký</h2>
 
-          <input name="email" placeholder="Email" onChange={handleChange} />
-          <input type="password" name="password" placeholder="Password" onChange={handleChange} />
-          <input type="password" name="confirmPassword" placeholder="Confirm Password" onChange={handleChange} />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            onChange={handleChange}
+            required
+          />
 
-          <button type="submit">Register</button>
+          <input
+            type="password"
+            name="password"
+            placeholder="Mật khẩu"
+            onChange={handleChange}
+            required
+          />
+
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Nhập lại mật khẩu"
+            onChange={handleChange}
+            required
+          />
+
+          <button type="submit">Đăng ký</button>
+
+          <div className="form-link">
+            <a href="/auth/login">Đã có tài khoản? Đăng nhập</a>
+          </div>
         </form>
 
       </div>
