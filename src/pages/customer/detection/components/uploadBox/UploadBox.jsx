@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './UploadBox.module.scss';
-import { Upload, X } from 'lucide-react';
+import { Upload, Loader2, Image as ImageIcon, Video } from 'lucide-react';
 
 const UploadBox = ({ onDetected, loading }) => {
     const [preview, setPreview] = useState(null);
     const [file, setFile] = useState(null);
+
+    useEffect(() => {
+        return () => { if (preview) URL.revokeObjectURL(preview); };
+    }, [preview]);
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
@@ -14,41 +18,30 @@ const UploadBox = ({ onDetected, loading }) => {
         }
     };
 
-    const handleReset = () => {
-        setPreview(null);
-        setFile(null);
-    };
+    const isVideo = file?.type.startsWith('video');
 
     return (
         <div className={styles.uploadContainer}>
             {!preview ? (
                 <label className={styles.dropzone}>
-                    <div className={styles.iconBox}>
-                        <Upload size={40} strokeWidth={1.5} />
-                    </div>
-                    <p>Tải lên ảnh giao thông</p>
-                    <span>JPG, PNG hoặc MP4 • Tối đa 50MB</span>
-                    <input type="file" accept="image/*,video/*" onChange={handleFileChange} />
+                    <div className={styles.iconBox}><Upload size={40} /></div>
+                    <p>Tải lên Ảnh hoặc Video giao thông</p>
+                    <span>Hệ thống AI sẽ tự động nhận diện biển báo</span>
+                    <input type="file" accept="image/*,video/*" onChange={handleFileChange} hidden />
                 </label>
             ) : (
                 <div className={styles.previewWrapper}>
-                    <img src={preview} alt="Preview" className={styles.imgPreview} />
-                    {loading && (
-                        <>
-                            <div className={styles.scanningLine}></div>
-                            <div className={styles.processIndicator}>
-                                <div className={styles.spinner}></div>
-                                <span>Đang quét...</span>
-                            </div>
-                        </>
+                    {isVideo ? (
+                        <video src={preview} className={styles.imgPreview} controls />
+                    ) : (
+                        <img src={preview} alt="Preview" className={styles.imgPreview} />
                     )}
                     <div className={styles.actionGroup}>
                         <button className={styles.btnMain} onClick={() => onDetected(file)} disabled={loading}>
-                            {loading ? 'Hệ thống đang xử lý...' : 'Phân tích AI'}
+                            {loading ? <Loader2 className={styles.spin} /> : "Bắt đầu phân tích AI"}
                         </button>
-                        <button className={styles.btnReset} onClick={handleReset} disabled={loading}>
-                            <X size={18} style={{marginRight: '6px'}} />
-                            Hủy
+                        <button className={styles.btnReset} onClick={() => {setPreview(null); setFile(null);}} disabled={loading}>
+                            Chọn file khác
                         </button>
                     </div>
                 </div>

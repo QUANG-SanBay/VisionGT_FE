@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+/*import React, { useState } from 'react';
 import styles from './Detection.module.scss';
 import UploadBox from './components/uploadBox/UploadBox';
 import ResultBox from './components/resultBox/ResultBox';
@@ -95,6 +95,68 @@ const Detection = () => {
                     setError(null);
                     setSuccess(false);
                 }} />
+            )}
+        </div>
+    );
+};
+
+export default Detection;*/
+import React, { useState } from 'react';
+import styles from './Detection.module.scss';
+import UploadBox from './components/uploadBox/UploadBox';
+import ResultBox from './components/resultBox/ResultBox';
+import detectionApi from '../../../api/detectionApi';
+import { AlertCircle } from 'lucide-react';
+
+const Detection = () => {
+    const [result, setResult] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const handleDetect = async (file) => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const response = await detectionApi.uploadAndDetect(file);
+            const resData = response.data;
+
+            console.log("Dữ liệu API Upload:", resData); // Để debug
+
+            if (resData.success) {
+                // Đảm bảo lấy đúng các trường từ resData và resData.data
+                setResult({
+                    detection_id: resData.detection_id,
+                    file_type: resData.file_type || resData.data.file_type,
+                    output_file: resData.data.output_file,
+                    signs_summary: resData.data.signs_summary || {}, // Object tóm tắt
+                    created_at: resData.data.created_at
+                });
+            } else {
+                setError(resData.message || "Không thể nhận diện");
+            }
+        } catch (err) {
+            setError("Lỗi kết nối Server. Vui lòng kiểm tra lại API.");
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className={styles.detectionPage}>
+            {error && (
+                <div className={styles.errorAlert}>
+                    <AlertCircle size={20} /> {error}
+                </div>
+            )}
+            
+            {!result ? (
+                <div className={styles.uploadSection}>
+                    <UploadBox onDetected={handleDetect} loading={loading} />
+                </div>
+            ) : (
+                <ResultBox data={result} onBack={() => setResult(null)} />
             )}
         </div>
     );
