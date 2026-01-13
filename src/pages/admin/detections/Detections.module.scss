@@ -1,0 +1,55 @@
+.detectionListPage {
+    padding: 24px;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+        }
+    }
+
+    .searchBox {
+        margin-bottom: 20px;
+
+        input {
+            padding: 12px;
+            border-radius: 8px;
+        }
+    }
+
+    .loadingContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 400px;
+        gap: 16px;
+
+        p {
+            font-size: 16px;
+            color: #666;
+        }
+    }
+
+    .footer {
+        margin-top: 16px;
+        text-align: right;
+        color: #666;
+        font-size: 14px;
+    }
+}
+
+.detectionDetailPage {
+    padding: 24px;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+}
