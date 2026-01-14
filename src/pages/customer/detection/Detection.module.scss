@@ -1,12 +1,20 @@
 .detectionPage {
   width: 100%;
-  height: 100vh;
+  height: 100vh; // Cố định 100vh cho trang Upload
   background: linear-gradient(135deg, #EEF2FF 0%, #FFFFFF 100%);
   padding: 0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: hidden; // Khóa cuộn cho trang Upload
+
+  /* KHI Ở TRANG KẾT QUẢ: Ghi đè để cho phép cuộn trang */
+  &.resultMode {
+    height: auto;         // Hủy bỏ chiều cao cố định
+    min-height: 100vh;    // Đảm bảo nền vẫn phủ hết trang
+    overflow: visible;    // Cho phép thanh cuộn trình duyệt xuất hiện
+    display: block;       // Chuyển sang block để nội dung trôi tự nhiên
+  }
 
   .uploadSection {
     flex: 1;
@@ -17,23 +25,22 @@
     overflow: hidden;
   }
 
+  /* Tùy chỉnh thanh cuộn trình duyệt khi xem kết quả */
   &::-webkit-scrollbar {
     width: 8px;
   }
-
   &::-webkit-scrollbar-track {
     background: #f0f4ff;
   }
-
   &::-webkit-scrollbar-thumb {
     background: linear-gradient(135deg, #0061ff 0%, #003eb3 100%);
     border-radius: 10px;
-
     &:hover {
       background: linear-gradient(135deg, #003eb3 0%, #001f5c 100%);
     }
   }
 
+  // ... Các phần CSS Alert và Animation giữ nguyên bên dưới ...
   .alertContainer {
     position: fixed;
     top: 30px;
@@ -56,51 +63,12 @@
     align-items: center;
     gap: 12px;
     box-shadow: 0px 4px 12px rgba(225, 29, 72, 0.15);
-  }
-
-  .successAlert {
-    background: linear-gradient(135deg, #f0fdf4 0%, #e6fffa 100%);
-    border: 2px solid #10B981;
-    border-radius: 12px;
-    padding: 16px 20px;
-    color: #059669;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    box-shadow: 0px 4px 12px rgba(16, 185, 129, 0.15);
-  }
-}
-
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    margin: 20px auto; // Thêm margin để không dính sát mép khi hiện lỗi
+    max-width: fit-content;
   }
 }
 
 @keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import styles from './ResultBox.module.scss';
 import { 
     ArrowLeft, Gauge, History, Search, 
-    Loader2, Scale, AlertCircle, Bookmark, 
-    ChevronRight, Info
+    Loader2, Scale, AlertCircle, Info
 } from 'lucide-react';
 import detectionApi from '../../../../../api/detectionApi';
 
@@ -27,7 +26,7 @@ const ResultBox = ({ data, onBack }) => {
 
     return (
         <div className={styles.scrollWrapper}>
-            {/* Header dính cố định khi cuộn */}
+            {/* Header */}
             <div className={styles.stickyHeader}>
                 <div className={styles.headerContent}>
                     <button className={styles.backBtn} onClick={onBack}>
@@ -46,7 +45,7 @@ const ResultBox = ({ data, onBack }) => {
             <div className={styles.mainContent}>
                 <div className={styles.layoutGrid}>
                     
-                    {/* CỘT TRÁI: Media và Chi tiết pháp luật */}
+                    {/* CỘT TRÁI */}
                     <div className={styles.leftColumn}>
                         <div className={styles.mediaContainer}>
                             <div className={styles.cardHeader}>
@@ -61,7 +60,7 @@ const ResultBox = ({ data, onBack }) => {
                             </div>
                         </div>
 
-                        {/* CHI TIẾT PHÁP LUẬT - Dạng thẻ hồ sơ */}
+                        {/* CHI TIẾT PHÁP LUẬT */}
                         {detailData && (
                             <div className={styles.detailSection}>
                                 <div className={styles.sectionHeading}>
@@ -99,46 +98,47 @@ const ResultBox = ({ data, onBack }) => {
                         )}
                     </div>
 
-                    {/* CỘT PHẢI: Tóm tắt thông số (Sẽ dính khi cuộn cột trái) */}
+                    {/* CỘT PHẢI */}
                     <div className={styles.rightColumn}>
-                        <div className={styles.stickySidePanel}>
-                            <div className={styles.actionCard}>
-                                <div className={styles.totalStats}>
-                                    <span className={styles.statLabel}>Phát hiện được</span>
-                                    <div className={styles.statValue}>{summaryEntries.length} <span>loại biển</span></div>
-                                </div>
-                                <button 
-                                    className={styles.lookupBtn} 
-                                    onClick={handleViewDetail} 
-                                    disabled={loadingDetail || detailData}
-                                >
-                                    {loadingDetail ? <Loader2 className={styles.spin} /> : <Search size={18} />}
-                                    {detailData ? "Đã hiển thị chi tiết" : "Tra cứu luật giao thông"}
-                                </button>
+                        <div className={styles.actionCard}>
+                            <div className={styles.totalStats}>
+                                <span className={styles.statLabel}>Phát hiện được</span>
+                                <div className={styles.statValue}>{summaryEntries.length} <span>loại biển</span></div>
                             </div>
+                            <button 
+                                className={styles.lookupBtn} 
+                                onClick={handleViewDetail} 
+                                disabled={loadingDetail || detailData}
+                            >
+                                {loadingDetail ? <Loader2 className={styles.spin} /> : <Search size={18} />}
+                                {detailData ? "Đã hiển thị chi tiết" : "Tra cứu luật giao thông"}
+                            </button>
+                        </div>
 
-                            <div className={styles.summaryCard}>
-                                <h3>Tóm tắt nhận diện</h3>
-                                <div className={styles.summaryList}>
-                                    {summaryEntries.length > 0 ? (
-                                        summaryEntries.map(([name, info], index) => (
-                                            <div key={index} className={styles.summaryItem}>
-                                                <div className={styles.itemTop}>
-                                                    <span className={styles.itemName}>{name}</span>
-                                                    <span className={styles.itemCount}>x{info.count}</span>
-                                                </div>
-                                                <div className={styles.itemBottom}>
-                                                    <span><Gauge size={12} /> {Math.round(info.avg_confidence * 100)}%</span>
-                                                    {info.total_duration > 0 && (
-                                                        <span><History size={12} /> {info.total_duration.toFixed(1)}s</span>
-                                                    )}
-                                                </div>
+                        <div className={styles.summaryCard}>
+                            <h3>Tóm tắt nhận diện</h3>
+                            <div className={styles.summaryList}>
+                                {summaryEntries.length > 0 ? (
+                                    summaryEntries.map(([name, info], index) => (
+                                        <div key={index} className={styles.summaryItem}>
+                                            <div className={styles.itemTop}>
+                                                <span className={styles.itemName}>{name}</span>
+                                                <span className={styles.itemCount}>Số lượng biển: x{info.count}</span>
                                             </div>
-                                        ))
-                                    ) : (
-                                        <div className={styles.empty}>Không có dữ liệu</div>
-                                    )}
-                                </div>
+                                            <div className={styles.itemBottom}>
+                                                <span>
+                                                    <Gauge size={12} /> 
+                                                    Độ tin tưởng: {Math.round(info.avg_confidence * 100)}%
+                                                </span>
+                                                {info.total_duration > 0 && (
+                                                    <span><History size={12} /> {info.total_duration.toFixed(1)}s</span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className={styles.empty}>Không có dữ liệu</div>
+                                )}
                             </div>
                         </div>
                     </div>
