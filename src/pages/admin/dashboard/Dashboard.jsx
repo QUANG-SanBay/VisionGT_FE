@@ -16,23 +16,15 @@ const Dashboard = () => {
         const fetchStats = async () => {
             try {
                 setLoading(true);
-                const res = await detectionApi.getDetectionStats();
-                // Kỳ vọng backend trả về { total: number, by_type: [{type, count}], timeseries: [...] }
+                // Gọi API thống kê mới
+                const res = await detectionApi.getDashboardStats();
+                // Kỳ vọng backend trả về { total_detections, detections_by_type, most_common_sign, total_unique_types }
                 setStats(res.data);
                 setError(null);
             } catch (err) {
                 console.error('Lỗi lấy thống kê:', err);
-                setError('Không thể tải thống kê. Hiển thị dữ liệu mẫu.');
-                // Dữ liệu mẫu để demo giao diện
-                setStats({
-                    total: 37,
-                    by_type: [
-                        { type: 'P.102', count: 15 },
-                        { type: 'P.103', count: 10 },
-                        { type: 'W.201', count: 6 },
-                        { type: 'Other', count: 6 },
-                    ],
-                });
+                setError(err.response?.data?.detail || 'Không thể tải dữ liệu thống kê. API có thể chưa được cài đặt.');
+                setStats(null); // Xóa dữ liệu cũ khi có lỗi
             } finally {
                 setLoading(false);
             }
@@ -50,10 +42,12 @@ const Dashboard = () => {
         );
     }
 
-    const total = stats?.total ?? 0;
-    const byType = stats?.by_type ?? [];
+    // Cập nhật cấu trúc dữ liệu từ API mới
+    const total = stats?.total_detections ?? 0;
+    const byType = stats?.detections_by_type ?? [];
+    const mostCommon = stats?.most_common_sign;
+    const uniqueTypes = stats?.total_unique_types ?? 0;
 
-    // Tính tổng để chuẩn hóa thanh phần trăm
     const sumByType = byType.reduce((s, t) => s + (t.count || 0), 0) || 1;
 
     return (
@@ -64,10 +58,12 @@ const Dashboard = () => {
             </Box>
 
             {error && (
-                <Alert severity="warning" style={{ marginBottom: 20 }}>
+                <Alert severity="error" style={{ marginBottom: 20 }}>
                     {error}
                 </Alert>
             )}
+
+            {stats && (
 
             <Grid container spacing={3}>
                 {/* Stat Cards */}
@@ -77,7 +73,7 @@ const Dashboard = () => {
                             <BarChart3 size={32} />
                         </Box>
                         <Box className={styles.statContent}>
-                            <Typography className={styles.statLabel}>Tổng Biển Báo</Typography>
+                            <Typography className={styles.statLabel}>Tổng Lần Nhận Diện</Typography>
                             <Typography className={styles.statValue}>{total}</Typography>
                             <Typography className={styles.statDesc}>Đã nhận diện</Typography>
                         </Box>
@@ -91,8 +87,8 @@ const Dashboard = () => {
                         </Box>
                         <Box className={styles.statContent}>
                             <Typography className={styles.statLabel}>Loại Phổ Biến</Typography>
-                            <Typography className={styles.statValue}>{byType[0]?.type || 'N/A'}</Typography>
-                            <Typography className={styles.statDesc}>{byType[0]?.count || 0} lần</Typography>
+                            <Typography className={styles.statValue}>{mostCommon?.type || 'N/A'}</Typography>
+                            <Typography className={styles.statDesc}>{mostCommon?.count || 0} lần</Typography>
                         </Box>
                     </Box>
                 </Grid>
@@ -117,7 +113,7 @@ const Dashboard = () => {
                         </Box>
                         <Box className={styles.statContent}>
                             <Typography className={styles.statLabel}>Loại Khác Nhau</Typography>
-                            <Typography className={styles.statValue}>{byType.length}</Typography>
+                            <Typography className={styles.statValue}>{uniqueTypes}</Typography>
                             <Typography className={styles.statDesc}>Được hệ thống hỗ trợ</Typography>
                         </Box>
                     </Box>
@@ -163,6 +159,7 @@ const Dashboard = () => {
                     </Card>
                 </Grid>
             </Grid>
+            )}
         </div>
     );
 };

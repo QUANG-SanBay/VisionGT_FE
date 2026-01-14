@@ -14,12 +14,27 @@ const Detection = () => {
         setError(null); // Reset lỗi mỗi lần upload
         setResult(null); // Xóa kết quả cũ
         try {
-            // Gọi API thực tế
-            const response = await detectionApi.uploadAndDetect(file); // `file` ở đây là file ảnh/video
+            // Xác định file_type dựa trên phần mở rộng của file
+            const extension = file.name.split('.').pop().toLowerCase();
+            const imageExtensions = ['jpg', 'jpeg', 'png', 'bmp'];
+            const videoExtensions = ['mp4', 'avi', 'mov', 'mkv'];
+            let fileType = '';
 
-            // Dựa vào API_DOCUMENTATION.md, dữ liệu chi tiết nằm trong response.data.data
+            if (imageExtensions.includes(extension)) {
+                fileType = 'image';
+            } else if (videoExtensions.includes(extension)) {
+                fileType = 'video';
+            } else {
+                setError('Định dạng file không được hỗ trợ. Vui lòng chọn file ảnh (.jpg, .png) hoặc video (.mp4, .avi).');
+                setLoading(false);
+                return;
+            }
+
+            // Gọi API thực tế
+            const response = await detectionApi.uploadAndDetect(file, fileType); 
+
+            // Dữ liệu tóm tắt nằm trong response.data.data
             if (response.data && response.data.success) {
-                // Backend trả về data đúng cấu trúc, gán vào state result
                 setResult(response.data.data);
             } else {
                 // Xử lý trường hợp API trả về success: false nhưng không ném lỗi (ví dụ: file không hợp lệ)

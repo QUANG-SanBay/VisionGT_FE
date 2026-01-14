@@ -2,38 +2,42 @@
 import axiosClient from './client/axios'; 
 
 const detectionApi = {
-    // Hàm gửi ảnh lên Server
-    uploadAndDetect: (file) => {
+    /**
+     * 1. Upload file (ảnh/video) để chạy nhận diện
+     * @param {File} file - File để upload
+     * @param {String} fileType - "image" hoặc "video"
+     */
+    uploadAndDetect: (file, fileType) => {
         const formData = new FormData();
-        // 'image' là cái key mà Backend Django sẽ nhận (Thịnh sẽ code phần này)
-        formData.append('image', file); 
+        formData.append('file', file); 
+        formData.append('file_type', fileType);
 
-        return axiosClient.post('/detection/predict/', formData, {
+        return axiosClient.post('/api/recognition/upload-run/', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         });
     },
     /**
-     * 2. Lấy danh sách biển báo đã nhận diện (quản lý biển báo)
+     * 2. Lấy lịch sử các lần nhận diện của người dùng đã đăng nhập
      */
-    getAllDetections: () => {
-        return axiosClient.get('/detection/list/');
+    getHistory: () => {
+        return axiosClient.get('/api/recognition/history/');
     },
 
     /**
-     * 3. Lấy chi tiết 1 biển báo theo ID
+     * 3. Lấy chi tiết một lần nhận diện theo ID
      */
     getDetectionById: (id) => {
-        return axiosClient.get(`/detection/${id}/`);
+        return axiosClient.get(`/api/recognition/detection/${id}/`);
     },
 
     /**
      * 4. Lấy dữ liệu thống kê cho Dashboard
      */
-    getDetectionStats: () => {
-        return axiosClient.get('/detection/stats/');
-    }
+    getDashboardStats: () => {
+        return axiosClient.get('/api/dashboard/stats/'); // Endpoint này cần được tạo ở Backend
+    },
 };
 
 export default detectionApi;

@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button, CircularProgress, Card, CardMedia, CardContent, Box, Alert } from '@mui/material';
-import { ArrowLeft, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Button, CircularProgress, Card, CardContent, Box, Alert, Typography, Chip } from '@mui/material';
+import { ArrowLeft, AlertTriangle, CheckCircle, Clock, Video, Image as ImageIcon } from 'lucide-react';
 import styles from './Detections.module.scss';
 import detectionApi from '../../../api/detectionApi';
 
-// Trang hiển thị chi tiết một biển báo
+// Trang hiển thị chi tiết một LẦN NHẬN DIỆN (Detection)
 // - Lấy `id` từ params
 // - Gọi API `getDetectionById(id)`
-// - Hiển thị ảnh, tên, loại, độ chính xác, ngày phát hiện và mô tả
+// - Hiển thị file output (ảnh/video) và danh sách các biển báo đã phát hiện
 const DetectionDetail = () => {
     const { id } = useParams(); // lấy id từ URL
     const navigate = useNavigate();
 
-    const [detection, setDetection] = useState(null); // dữ liệu biển báo
+    const [detection, setDetection] = useState(null); // dữ liệu của một lần nhận diện
     const [loading, setLoading] = useState(true); // trạng thái loading
     const [error, setError] = useState(null); // lỗi khi fetch
 
@@ -23,22 +23,12 @@ const DetectionDetail = () => {
             try {
                 setLoading(true);
                 const res = await detectionApi.getDetectionById(id);
-                // Backend kỳ vọng trả object chi tiết ở res.data
+                // Backend trả về object chi tiết ở res.data
                 setDetection(res.data);
                 setError(null);
             } catch (err) {
                 console.error('Lỗi khi lấy chi tiết:', err);
-                setError('Không thể tải chi tiết. Hiển thị dữ liệu mẫu.');
-                // Dữ liệu mẫu để demo giao diện khi backend chưa có
-                setDetection({
-                    id,
-                    name: 'Cấm đi ngược chiều (mẫu)',
-                    type: 'P.102',
-                    image: 'https://via.placeholder.com/600x400',
-                    detectedAt: '2024-01-08',
-                    confidence: 99,
-                    description: 'Mô tả mẫu cho biển báo',
-                });
+                setError(err.response?.data?.message || 'Không thể tải dữ liệu chi tiết từ máy chủ.');
             } finally {
                 setLoading(false);
             }
@@ -67,7 +57,7 @@ const DetectionDetail = () => {
                 >
                     Quay lại
                 </Button>
-                <h1 className={styles.detailTitle}>📋 Chi Tiết Biển Báo</h1>
+                <h1 className={styles.detailTitle}>📋 Chi Tiết Lần Nhận Diện</h1>
             </Box>
 
             {error && (
