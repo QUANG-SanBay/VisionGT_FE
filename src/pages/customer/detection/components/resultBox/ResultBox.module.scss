@@ -36,7 +36,7 @@
       padding: 2px 10px; border-radius: 20px; font-weight: 700;
     }
   }
-  .dateTime { color: #94a3b8; font-size: 0.85rem; font-weight: 500; }
+  .dateTime { color: #06080a; font-size: 0.85rem; font-weight: 500; }
 }
 
 .mainContent {
@@ -71,7 +71,7 @@
   
   .imageBox {
     background: #0f172a; display: flex; justify-content: center;
-    .displayMedia { width: 100%; height: auto; display: block; }
+    .displayMedia { width: 80%; height: 80%; display: block; }
   }
 }
 
