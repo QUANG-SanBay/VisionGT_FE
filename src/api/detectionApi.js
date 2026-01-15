@@ -1,43 +1,33 @@
-// Import cái axiosClient mà dự án đã cấu hình sẵn
-import axiosClient from './client/axios'; 
+import axiosClient from './client/axios';
 
 const detectionApi = {
-    /**
-     * 1. Upload file (ảnh/video) để chạy nhận diện
-     * @param {File} file - File để upload
-     * @param {String} fileType - "image" hoặc "video"
-     */
-    uploadAndDetect: (file, fileType) => {
+    uploadAndDetect: (file) => {
         const formData = new FormData();
-        formData.append('file', file); 
-        formData.append('file_type', fileType);
+        const type = file.type.startsWith('video') ? 'video' : 'image';
 
-        return axiosClient.post('/api/recognition/upload-run/', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
+        formData.append('file', file);
+        formData.append('file_type', type);
+
+        return axiosClient.post('/recognition/upload-run/', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
         });
     },
-    /**
-     * 2. Lấy lịch sử các lần nhận diện của người dùng đã đăng nhập
-     */
-    getHistory: () => {
-        return axiosClient.get('/api/recognition/history/');
+
+    getDetectionDetail: (detectionId) => {
+        return axiosClient.get(`/recognition/detection/${detectionId}/`);
     },
 
-    /**
-     * 3. Lấy chi tiết một lần nhận diện theo ID
-     */
+    getAllDetections: () => {
+        return axiosClient.get('/detection/list/');
+    },
+
     getDetectionById: (id) => {
         return axiosClient.get(`/api/recognition/detection/${id}/`);
     },
 
-    /**
-     * 4. Lấy dữ liệu thống kê cho Dashboard
-     */
-    getDashboardStats: () => {
-        return axiosClient.get('/api/dashboard/stats/'); // Endpoint này cần được tạo ở Backend
-    },
+    getDetectionStats: () => {
+        return axiosClient.get('/detection/stats/');
+    }
 };
 
 export default detectionApi;

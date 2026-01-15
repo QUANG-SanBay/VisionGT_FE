@@ -1,36 +1,75 @@
 .detectionPage {
-  min-height: 100vh;
-  background-color: #f4f7fe;
-  padding: 40px 20px;
-  font-family: 'Inter', sans-serif;
+  width: 100%;
+  height: 90vh; // Cố định 100vh cho trang Upload
+  background: linear-gradient(135deg, #EEF2FF 0%, #FFFFFF 100%);
+  padding: 0;
+  margin: 0 auto;  
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; // Khóa cuộn cho trang Upload
 
-  .header {
-    text-align: center;
-    margin-bottom: 50px;
+  /* KHI Ở TRANG KẾT QUẢ: Ghi đè để cho phép cuộn trang */
+  &.resultMode {
+    height: auto;         // Hủy bỏ chiều cao cố định
+    min-height: 100vh;    // Đảm bảo nền vẫn phủ hết trang
+    overflow: visible;    // Cho phép thanh cuộn trình duyệt xuất hiện
+    display: block;       // Chuyển sang block để nội dung trôi tự nhiên
+  }
 
-    h1 {
-      font-size: 2.5rem;
-      color: #1b2559;
-      font-weight: 800;
-      letter-spacing: -1px;
-      margin-bottom: 10px;
-    }
+  .uploadSection {
+    flex: 1;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
 
-    p {
-      color: #a3aed0;
-      font-size: 1.1rem;
+  /* Tùy chỉnh thanh cuộn trình duyệt khi xem kết quả */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f0f4ff;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #0061ff 0%, #003eb3 100%);
+    border-radius: 10px;
+    &:hover {
+      background: linear-gradient(135deg, #003eb3 0%, #001f5c 100%);
     }
   }
 
-  .content {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-
-    @media (max-width: 1024px) {
-      grid-template-columns: 1fr;
-    }
+  // ... Các phần CSS Alert và Animation giữ nguyên bên dưới ...
+  .alertContainer {
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 600px;
+    width: 90%;
+    z-index: 100;
+    animation: slideDown 0.4s ease;
   }
+
+  .errorAlert {
+    background: linear-gradient(135deg, #fff5f7 0%, #ffe4eb 100%);
+    border: 2px solid #E11D48;
+    border-radius: 12px;
+    padding: 16px 20px;
+    color: #E11D48;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0px 4px 12px rgba(225, 29, 72, 0.15);
+    margin: 20px auto; // Thêm margin để không dính sát mép khi hiện lỗi
+    max-width: fit-content;
+  }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
