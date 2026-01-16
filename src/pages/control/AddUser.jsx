@@ -75,7 +75,7 @@ const AddUser = ({ onAdd }) => {
             {/* ===== HÀNG 1: FORM THÔNG TIN ===== */}
             <div className="modal-body form-grid">
               <div>
-                <label>Email</label>
+                <label><b>Email</b></label>
                 <input
                   className="input"
                   name="email"
@@ -85,7 +85,7 @@ const AddUser = ({ onAdd }) => {
               </div>
 
               <div>
-                <label>Họ và tên</label>
+                <label><b>Họ và tên</b></label>
                 <input
                   className="input"
                   name="full_name"
@@ -95,7 +95,7 @@ const AddUser = ({ onAdd }) => {
               </div>
 
               <div>
-                <label>Giới tính</label>
+                <label><b>Giới tính</b></label>
                 <select
                   className="input"
                   name="gender"
@@ -109,7 +109,7 @@ const AddUser = ({ onAdd }) => {
               </div>
 
               <div>
-                <label>Vai trò</label>
+                <label><b>Vai trò</b></label>
                 <select
                   className="input"
                   name="role"
@@ -122,7 +122,7 @@ const AddUser = ({ onAdd }) => {
               </div>
 
               <div>
-                <label>Mật khẩu</label>
+                <label><b>Mật khẩu</b></label>
                 <input
                   className="input"
                   type="password"
@@ -133,7 +133,7 @@ const AddUser = ({ onAdd }) => {
               </div>
 
               <div>
-                <label>Nhập lại mật khẩu</label>
+                <label><b>Nhập lại mật khẩu</b></label>
                 <input
                   className="input"
                   type="password"
