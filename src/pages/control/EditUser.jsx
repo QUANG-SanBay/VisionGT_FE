@@ -32,16 +32,6 @@ const EditUser = ({ user, onClose, onSave }) => {
 
         {/* FORM */}
         <div className="adduser-row">
-          {/* USERNAME */}
-          <div>
-            <label>👤 Username</label>
-            <input
-              className="input"
-              name="username"
-              value={form.username || ""}
-              onChange={handleChange}
-            />
-          </div>
 
           {/* EMAIL */}
           <div>
