@@ -4,7 +4,6 @@ const AddUser = ({ onAdd }) => {
   const [showModal, setShowModal] = useState(false);
 
   const [form, setForm] = useState({
-    username: "",
     email: "",
     full_name: "",
     gender: "other",
@@ -17,7 +16,7 @@ const AddUser = ({ onAdd }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = () => {
-    if (!form.username || !form.email || !form.full_name) {
+    if (!form.email || !form.full_name) {
       alert("❌ Vui lòng nhập đầy đủ thông tin");
       return;
     }
@@ -29,7 +28,6 @@ const AddUser = ({ onAdd }) => {
 
     onAdd({
       id: Date.now(),
-      username: form.username,
       email: form.email,
       full_name: form.full_name,
       gender: form.gender,
@@ -41,7 +39,6 @@ const AddUser = ({ onAdd }) => {
     alert("➕ Thêm người dùng thành công");
 
     setForm({
-      username: "",
       email: "",
       full_name: "",
       gender: "other",
@@ -55,11 +52,11 @@ const AddUser = ({ onAdd }) => {
 
   return (
     <>
-      {/* ===== NÚT MỞ MODAL ===== */}
+      {/* ===== CARD MỞ MODAL ===== */}
       <div className="card">
         <h2 style={{ color: "#0284c7" }}>👥 Thêm người dùng mới</h2>
         <button className="btn btn-add" onClick={() => setShowModal(true)}>
-          ➕ Thêm người dùng 
+          ➕ Thêm người dùng
         </button>
       </div>
 
@@ -75,18 +72,8 @@ const AddUser = ({ onAdd }) => {
               </button>
             </div>
 
-            {/* ===== HÀNG 1: THÔNG TIN ===== */}
-            <div className="adduser-row">
-              <div>
-                <label>Username</label>
-                <input
-                  className="input"
-                  name="username"
-                  value={form.username}
-                  onChange={handleChange}
-                />
-              </div>
-
+            {/* ===== HÀNG 1: FORM THÔNG TIN ===== */}
+            <div className="modal-body form-grid">
               <div>
                 <label>Email</label>
                 <input
