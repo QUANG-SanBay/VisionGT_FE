@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styles from './Detection.module.scss';
-import UploadBox from './components/uploadBox/UploadBox';
 import ResultBox from './components/resultBox/ResultBox';
 import detectionApi from '../../../api/detectionApi';
 import { AlertCircle } from 'lucide-react';
@@ -13,11 +12,9 @@ const Detection = () => {
     const handleDetect = async (file) => {
         setLoading(true);
         setError(null);
-
         try {
             const response = await detectionApi.uploadAndDetect(file);
             const resData = response.data;
-
             if (resData.success) {
                 setResult({
                     detection_id: resData.detection_id,
@@ -30,29 +27,35 @@ const Detection = () => {
                 setError(resData.message || "Không thể nhận diện");
             }
         } catch (err) {
-            setError("Lỗi kết nối Server. Vui lòng kiểm tra lại API.");
-            console.error(err);
+            setError("Lỗi kết nối Server.");
         } finally {
             setLoading(false);
         }
     };
 
+    const handleReset = () => {
+        setResult(null);
+        setError(null);
+    };
+
     return (
-        /* SỬA DÒNG NÀY: Thêm class resultMode nếu có biến result */
-        <div className={`${styles.detectionPage} ${result ? styles.resultMode : ''}`}>
-            {error && (
-                <div className={styles.errorAlert}>
-                    <AlertCircle size={20} /> {error}
-                </div>
-            )}
-            
-            {!result ? (
-                <div className={styles.uploadSection}>
-                    <UploadBox onDetected={handleDetect} loading={loading} />
-                </div>
-            ) : (
-                <ResultBox data={result} onBack={() => setResult(null)} />
-            )}
+        <div className={styles.detectionPage}>
+            <div className={styles.pageContainer}>
+                {error && (
+                    <div className={styles.errorAlert}>
+                        <AlertCircle size={20} /> {error}
+                    </div>
+                )}
+                
+                {/* Dùng KEY để ép React xóa sạch dữ liệu cũ khi Reset */}
+                <ResultBox 
+                    key={result ? result.detection_id : 'initial'} 
+                    data={result} 
+                    onBack={handleReset} 
+                    onDetect={handleDetect} 
+                    loading={loading} 
+                />
+            </div>
         </div>
     );
 };
