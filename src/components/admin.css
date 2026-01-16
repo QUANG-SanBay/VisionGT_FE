@@ -1,0 +1,179 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  background: linear-gradient(135deg, #e0f2fe, #f8fafc);
+  color: #1f2937;
+}
+
+/* CARD */
+.card {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+/* HEADER */
+.admin-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #070708;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* INPUT */
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #b8cce3;
+  transition: 0.3s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #017fbe;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.2);
+}
+
+/* BUTTON */
+.btn {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-add {
+  background: #0284c7;
+  color: white;
+}
+
+.btn-add:hover {
+  background: #0369a1;
+}
+
+.btn-lock {
+  background: #f59e0b;
+  color: white;
+  margin-right: 6px;
+}
+
+.btn-lock:hover {
+  background: #d97706;
+}
+
+.btn-delete {
+  background: #dc2626;
+  color: white;
+}
+
+.btn-delete:hover {
+  background: #b91c1c;
+}
+
+/* TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #0f172a;
+  color: white;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+}
+
+tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+tbody tr:hover {
+  background: #f1f5f9;
+}
+
+/* STATUS */
+.status-active {
+  color: #16a34a;
+  font-weight: 700;
+}
+
+.status-inactive {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+/* Hàng thông tin */
+.adduser-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+/* Hàng nút */
+.adduser-action {
+  display: flex;
+  justify-content: flex-end; /* hoặc center */
+}
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal {
+  background: white;
+  width: 800px;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-close {
+  border: none;
+  background: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.adduser-row {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.adduser-row label {
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.adduser-action {
+  margin-top: 20px;
+  text-align: right;
+}
