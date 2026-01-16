@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styles from './Detection.module.scss';
-import UploadBox from './components/uploadBox/UploadBox';
 import ResultBox from './components/resultBox/ResultBox';
 import detectionApi from '../../../api/detectionApi';
 import { AlertCircle } from 'lucide-react';
@@ -13,7 +12,6 @@ const Detection = () => {
     const handleDetect = async (file) => {
         setLoading(true);
         setError(null);
-
         try {
             const response = await detectionApi.uploadAndDetect(file);
             const resData = response.data;
@@ -37,8 +35,12 @@ const Detection = () => {
         }
     };
 
+    const handleReset = () => {
+        setResult(null);
+        setError(null);
+    };
+
     return (
-        /* SỬA DÒNG NÀY: Thêm class resultMode nếu có biến result */
         <div className={`${styles.detectionPage} ${result ? styles.resultMode : ''}`}>
             {error && (
                 <div className={styles.errorAlert}>
@@ -46,13 +48,13 @@ const Detection = () => {
                 </div>
             )}
             
-            {!result ? (
-                <div className={styles.uploadSection}>
-                    <UploadBox onDetected={handleDetect} loading={loading} />
-                </div>
-            ) : (
-                <ResultBox data={result} onBack={() => setResult(null)} />
-            )}
+            {/* Luôn hiển thị ResultBox, truyền result và hàm handleDetect vào */}
+            <ResultBox 
+                data={result} 
+                onBack={handleReset} 
+                onDetect={handleDetect} 
+                loading={loading} 
+            />
         </div>
     );
 };

@@ -5,12 +5,14 @@ import {
     Loader2, Scale, AlertCircle, Info
 } from 'lucide-react';
 import detectionApi from '../../../../../api/detectionApi';
+import UploadBox from '../uploadBox/UploadBox';
 
-const ResultBox = ({ data, onBack }) => {
+const ResultBox = ({ data, onBack, onDetect, loading }) => {
     const [detailData, setDetailData] = useState(null);
     const [loadingDetail, setLoadingDetail] = useState(false);
 
     const handleViewDetail = async () => {
+        if (!data) return;
         setLoadingDetail(true);
         try {
             const response = await detectionApi.getDetectionDetail(data.detection_id);
@@ -22,7 +24,7 @@ const ResultBox = ({ data, onBack }) => {
         }
     };
 
-    const summaryEntries = Object.entries(data.signs_summary || {});
+    const summaryEntries = data ? Object.entries(data.signs_summary || {}) : [];
 
     return (
         <div className={styles.scrollWrapper}>
@@ -30,14 +32,16 @@ const ResultBox = ({ data, onBack }) => {
             <div className={styles.stickyHeader}>
                 <div className={styles.headerContent}>
                     <button className={styles.backBtn} onClick={onBack}>
-                        <ArrowLeft size={18} /> Quay lại
+                        <ArrowLeft size={18} /> Làm mới
                     </button>
                     <div className={styles.mainTitle}>
-                        <h1>Kết quả nhận diện lần {data.detection_id}</h1>
-                        <span className={styles.statusBadge}>Hoàn tất</span>
+                        <h1>{data ? `Kết quả nhận diện lần ${data.detection_id}` : 'Hệ thống nhận diện biển báo AI'}</h1>
+                        <span className={`${styles.statusBadge} ${!data ? styles.waiting : ''}`}>
+                            {data ? 'Hoàn tất' : 'Chờ tải lên'}
+                        </span>
                     </div>
                     <div className={styles.dateTime}>
-                        {new Date(data.created_at).toLocaleString('vi-VN')}
+                        {data ? new Date(data.created_at).toLocaleString('vi-VN') : '--/--/---- --:--'}
                     </div>
                 </div>
             </div>
@@ -45,22 +49,27 @@ const ResultBox = ({ data, onBack }) => {
             <div className={styles.mainContent}>
                 <div className={styles.layoutGrid}>
                     
-                    {/* CỘT TRÁI */}
+                    {/* CỘT TRÁI - NƠI CHỨA UPLOAD HOẶC HÌNH ẢNH */}
                     <div className={styles.leftColumn}>
                         <div className={styles.mediaContainer}>
                             <div className={styles.cardHeader}>
-                                <Info size={16} /> Hình ảnh nhận diện thực tế
+                                <Info size={16} /> {data ? "Hình ảnh nhận diện thực tế" : "Tải lên tệp tin để phân tích"}
                             </div>
                             <div className={styles.imageBox}>
-                                {data.file_type === 'video' ? (
-                                    <video src={data.output_file} controls autoPlay className={styles.displayMedia} />
+                                {data ? (
+                                    data.file_type === 'video' ? (
+                                        <video src={data.output_file} controls autoPlay className={styles.displayMedia} />
+                                    ) : (
+                                        <img src={data.output_file} alt="Result" className={styles.displayMedia} />
+                                    )
                                 ) : (
-                                    <img src={data.output_file} alt="Result" className={styles.displayMedia} />
+                                    /* Khung Upload hiện ở đây khi chưa có data */
+                                    <UploadBox onDetected={onDetect} loading={loading} />
                                 )}
                             </div>
                         </div>
 
-                        {/* CHI TIẾT PHÁP LUẬT */}
+                        {/* CHI TIẾT PHÁP LUẬT (Chỉ hiện khi có detailData) */}
                         {detailData && (
                             <div className={styles.detailSection}>
                                 <div className={styles.sectionHeading}>
@@ -103,12 +112,14 @@ const ResultBox = ({ data, onBack }) => {
                         <div className={styles.actionCard}>
                             <div className={styles.totalStats}>
                                 <span className={styles.statLabel}>Phát hiện được</span>
-                                <div className={styles.statValue}>{summaryEntries.length} <span>loại biển</span></div>
+                                <div className={styles.statValue}>
+                                    {summaryEntries.length} <span>loại biển</span>
+                                </div>
                             </div>
                             <button 
                                 className={styles.lookupBtn} 
                                 onClick={handleViewDetail} 
-                                disabled={loadingDetail || detailData}
+                                disabled={loadingDetail || detailData || !data}
                             >
                                 {loadingDetail ? <Loader2 className={styles.spin} /> : <Search size={18} />}
                                 {detailData ? "Đã hiển thị chi tiết" : "Tra cứu luật giao thông"}
@@ -137,7 +148,9 @@ const ResultBox = ({ data, onBack }) => {
                                         </div>
                                     ))
                                 ) : (
-                                    <div className={styles.empty}>Không có dữ liệu</div>
+                                    <div className={styles.empty}>
+                                        {loading ? "Đang phân tích..." : "Chưa có dữ liệu nhận diện"}
+                                    </div>
                                 )}
                             </div>
                         </div>

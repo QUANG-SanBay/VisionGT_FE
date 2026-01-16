@@ -138,6 +138,26 @@
   background: #fff; border-radius: 16px; border: 1px solid #e2e8f0; padding: 20px;
   h3 { font-size: 1rem; color: #0f172a; margin: 0 0 16px 0; font-weight: 800; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px; }
 }
+/* Thêm vào file scss hiện tại của bạn */
+.statusBadge.waiting {
+  background: #fef9c3;
+  color: #a16207;
+}
+
+.imageBox {
+  min-height: 500px; /* Cố định chiều cao tối thiểu cho khung hình ảnh/upload */
+  background: #4b5b7d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.displayMedia {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+}
 
 /* QUAN TRỌNG: Loại bỏ max-height và overflow để hiện full dọc */
 .summaryList {
