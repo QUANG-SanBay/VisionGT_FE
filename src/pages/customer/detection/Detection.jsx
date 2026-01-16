@@ -15,7 +15,6 @@ const Detection = () => {
         try {
             const response = await detectionApi.uploadAndDetect(file);
             const resData = response.data;
-
             if (resData.success) {
                 setResult({
                     detection_id: resData.detection_id,
@@ -28,8 +27,7 @@ const Detection = () => {
                 setError(resData.message || "Không thể nhận diện");
             }
         } catch (err) {
-            setError("Lỗi kết nối Server. Vui lòng kiểm tra lại API.");
-            console.error(err);
+            setError("Lỗi kết nối Server.");
         } finally {
             setLoading(false);
         }
@@ -41,20 +39,23 @@ const Detection = () => {
     };
 
     return (
-        <div className={`${styles.detectionPage} ${result ? styles.resultMode : ''}`}>
-            {error && (
-                <div className={styles.errorAlert}>
-                    <AlertCircle size={20} /> {error}
-                </div>
-            )}
-            
-            {/* Luôn hiển thị ResultBox, truyền result và hàm handleDetect vào */}
-            <ResultBox 
-                data={result} 
-                onBack={handleReset} 
-                onDetect={handleDetect} 
-                loading={loading} 
-            />
+        <div className={styles.detectionPage}>
+            <div className={styles.pageContainer}>
+                {error && (
+                    <div className={styles.errorAlert}>
+                        <AlertCircle size={20} /> {error}
+                    </div>
+                )}
+                
+                {/* Dùng KEY để ép React xóa sạch dữ liệu cũ khi Reset */}
+                <ResultBox 
+                    key={result ? result.detection_id : 'initial'} 
+                    data={result} 
+                    onBack={handleReset} 
+                    onDetect={handleDetect} 
+                    loading={loading} 
+                />
+            </div>
         </div>
     );
 };
