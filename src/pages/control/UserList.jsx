@@ -49,11 +49,16 @@ const UserList = ({ users, onDelete, onUpdate, onToggle }) => {
                   👁️
                 </button>
                 <button
-                  className="btn btn-delete"
-                  onClick={() => onDelete(u.id)}
-                >
-                  🗑️
-                </button>
+                 className="btn btn-delete"
+                 onClick={() => {
+                   if (window.confirm(`❗ Bạn có chắc chắn xoá người dùng ID = ${u.id} không?`)) {
+                    onDelete(u.id);
+                  }
+                }}
+>
+  🗑️
+</button>
+
               </td>
             </tr>
           ))}
@@ -65,15 +70,6 @@ const UserList = ({ users, onDelete, onUpdate, onToggle }) => {
         <div style={overlay}>
           <div className="modal">
             <h3>✏️ Chỉnh sửa người dùng</h3>
-
-            <label>👤 Username</label>
-            <input
-              className="input"
-              value={editing.username}
-              onChange={(e) =>
-                setEditing({ ...editing, username: e.target.value })
-              }
-            />
 
             <label>📧 Email</label>
             <input
@@ -151,7 +147,7 @@ const UserList = ({ users, onDelete, onUpdate, onToggle }) => {
             <p><b>Họ tên:</b> {view.full_name}</p>
             <p><b>Giới tính:</b> {view.gender}</p>
             <p><b>Vai trò:</b> {view.role}</p>
-            <p><b>Mật khẩu:</b> {view.password || "******"}</p>
+            <p><b>Mật khẩu:</b> {"******"}</p>
             <p>
               <b>Trạng thái:</b>{" "}
               {view.is_active ? "Hoạt động" : "Vô hiệu"}
