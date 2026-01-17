@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button, CircularProgress, Card, CardContent, Box, Alert, Typography, Chip } from '@mui/material';
 import { Button, CircularProgress, Card, CardContent, Box, Alert, Typography, Chip, CardMedia } from '@mui/material';
 import { ArrowLeft, AlertTriangle, CheckCircle, Clock, Video, Image as ImageIcon } from 'lucide-react';
 import styles from './Detections.module.scss';
