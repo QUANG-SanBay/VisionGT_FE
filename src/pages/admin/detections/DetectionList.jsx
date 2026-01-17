@@ -14,8 +14,11 @@ import {
     Alert,
     TextField,
     InputAdornment,
+    Chip,
+    IconButton,
+    Tooltip
 } from '@mui/material';
-import { Search as SearchIcon, RefreshCw, Eye, AlertTriangle } from 'lucide-react';
+import { Search as SearchIcon, RefreshCw, Eye, AlertTriangle, Filter, Calendar } from 'lucide-react';
 import styles from './Detections.module.scss';
 import detectionApi from '../../../api/detectionApi';
 
@@ -96,13 +99,13 @@ const DetectionList = () => {
     }
 
     return (
-        <div className={styles.detectionListPage}>
+        <div className={styles.root}>
             <Box className={styles.headerSection}>
                 <h1 className={styles.pageTitle}>🚗 Quản Lý Phát Hiện Biển Báo</h1>
                 <p className={styles.pageSubtitle}>Danh sách toàn bộ biển báo đã được hệ thống nhận diện</p>
             </Box>
 
-            <Box className={styles.toolbarSection}>
+            <Paper elevation={0} className={styles.toolbarSection}>
                 <Box className={styles.searchBox}>
                     <TextField
                         variant="outlined"
@@ -112,24 +115,24 @@ const DetectionList = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <SearchIcon size={20} />
+                                    <SearchIcon size={20} className={styles.searchIcon} />
                                 </InputAdornment>
                             ),
                         }}
                         fullWidth
+                        size="small"
                         className={styles.searchInput}
                     />
                 </Box>
                 <Button 
-                    variant="contained" 
+                    variant="outlined" 
                     onClick={handleRefresh} 
-                    color="primary"
-                    startIcon={<RefreshCw size={20} />}
+                    startIcon={<RefreshCw size={18} />}
                     className={styles.refreshBtn}
                 >
                     Làm mới
                 </Button>
-            </Box>
+            </Paper>
 
             {error && (
                 <Alert severity="warning" style={{ marginBottom: '20px' }} icon={<AlertTriangle size={20} />}>
@@ -139,7 +142,7 @@ const DetectionList = () => {
 
             {filteredDetections.length > 0 ? (
                 <>
-                    <Box className={styles.statsBox}>
+                    <Paper elevation={0} className={styles.statsBox}>
                         <Box className={styles.statItem}>
                             <span className={styles.statLabel}>Tổng phát hiện</span>
                             <span className={styles.statNumber}>{filteredDetections.length}</span>
@@ -153,9 +156,9 @@ const DetectionList = () => {
                                 )}%
                             </span>
                         </Box>
-                    </Box>
+                    </Paper>
 
-                    <TableContainer component={Paper} className={styles.tableContainer}>
+                    <TableContainer component={Paper} elevation={0} className={styles.tableContainer}>
                         <Table>
                             <TableHead>
                                 <TableRow className={styles.tableHeader}>
@@ -171,7 +174,7 @@ const DetectionList = () => {
                                 {filteredDetections.map((detection) => (
                                     <TableRow key={detection.id} className={styles.tableRow}>
                                         <TableCell align="center" className={styles.idCell}>
-                                            <Box className={styles.idBadge}>#{detection.id}</Box>
+                                            <span className={styles.idText}>#{detection.id}</span>
                                         </TableCell>
                                         <TableCell>
                                             <Box className={styles.imageWrapper}>
@@ -184,32 +187,37 @@ const DetectionList = () => {
                                         </TableCell>
                                         <TableCell>
                                             <Box className={styles.typeInfo}>
-                                                <Box className={styles.typeBadge}>{detection.type}</Box>
+                                                <Chip 
+                                                    label={detection.type} 
+                                                    size="small" 
+                                                    className={styles.typeChip}
+                                                />
                                                 <span className={styles.typeName}>{detection.name}</span>
                                             </Box>
                                         </TableCell>
                                         <TableCell align="center">
-                                            <Box className={styles.confidenceBar}>
-                                                <Box 
-                                                    className={styles.confidenceFill}
-                                                    style={{ width: `${detection.confidence}%` }}
-                                                />
-                                                <span className={styles.confidenceText}>{detection.confidence}%</span>
-                                            </Box>
+                                            <Chip 
+                                                label={`${detection.confidence}%`}
+                                                size="small"
+                                                className={`${styles.confidenceChip} ${detection.confidence > 90 ? styles.high : detection.confidence > 70 ? styles.medium : styles.low}`}
+                                            />
                                         </TableCell>
                                         <TableCell>
-                                            <span className={styles.dateText}>{detection.detectedAt}</span>
+                                            <Box className={styles.dateWrapper}>
+                                                <Calendar size={14} />
+                                                <span className={styles.dateText}>{detection.detectedAt}</span>
+                                            </Box>
                                         </TableCell>
                                         <TableCell align="center">
-                                            <Button
-                                                variant="contained"
+                                            <Tooltip title="Xem chi tiết">
+                                            <IconButton
                                                 size="small"
                                                 onClick={() => handleViewDetail(detection.id)}
-                                                startIcon={<Eye size={16} />}
                                                 className={styles.viewBtn}
                                             >
-                                                Chi tiết
-                                            </Button>
+                                                <Eye size={18} />
+                                            </IconButton>
+                                            </Tooltip>
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -218,7 +226,7 @@ const DetectionList = () => {
                     </TableContainer>
                 </>
             ) : (
-                <Card className={styles.emptyCard}>
+                <Card className={styles.emptyCard} elevation={0}>
                     <AlertTriangle size={48} className={styles.emptyIcon} />
                     <p className={styles.emptyText}>Không tìm thấy dữ liệu</p>
                 </Card>

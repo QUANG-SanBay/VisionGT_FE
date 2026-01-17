@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Grid, Card, CardContent, Typography, CircularProgress, Alert } from '@mui/material';
-import { BarChart3, TrendingUp, AlertCircle, CheckCircle } from 'lucide-react';
+import { Box, Grid, Card, CardContent, Typography, CircularProgress, Alert, Container, Paper, LinearProgress, Avatar } from '@mui/material';
+import { BarChart3, TrendingUp, AlertCircle, CheckCircle, Activity, PieChart } from 'lucide-react';
 import styles from './Dashboard.module.scss';
 import detectionApi from '../../../api/detectionApi';
 
@@ -36,7 +36,7 @@ const Dashboard = () => {
     if (loading) {
         return (
             <div className={styles.loadingContainer}>
-                <CircularProgress />
+                <CircularProgress size={60} thickness={4} />
                 <p>Đang tải thống kê...</p>
             </div>
         );
@@ -51,79 +51,100 @@ const Dashboard = () => {
     const sumByType = byType.reduce((s, t) => s + (t.count || 0), 0) || 1;
 
     return (
-        <div className={styles.dashboardPage}>
+        <div className={styles.root}>
+            <div className={styles.backgroundDecor} />
+            <Container maxWidth="xl" className={styles.container}>
             <Box className={styles.headerSection}>
-                <h1 className={styles.pageTitle}>📊 Dashboard Quản Lý</h1>
-                <p className={styles.pageSubtitle}>Thống kê và phân tích hệ thống nhận diện biển báo</p>
+                <Box>
+                    <Typography variant="h4" className={styles.pageTitle}>Tổng Quan Hệ Thống</Typography>
+                    <Typography variant="body1" className={styles.pageSubtitle}>Chào mừng trở lại, đây là báo cáo hiệu suất nhận diện biển báo hôm nay.</Typography>
+                </Box>
+                <Box className={styles.dateBadge}>
+                    {new Date().toLocaleDateString('vi-VN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                </Box>
             </Box>
 
             {error && (
-                <Alert severity="error" style={{ marginBottom: 20 }}>
+                <Alert severity="error" className={styles.alert} variant="filled">
                     {error}
                 </Alert>
             )}
 
             {stats && (
-
-            <Grid container spacing={3}>
+            <Grid container spacing={3} className={styles.statsGrid}>
                 {/* Stat Cards */}
                 <Grid item xs={12} sm={6} md={3}>
-                    <Box className={styles.statCard}>
-                        <Box className={styles.statIcon}>
-                            <BarChart3 size={32} />
+                    <Paper elevation={0} className={styles.statCard}>
+                        <Box className={styles.cardHeader}>
+                            <Box className={`${styles.iconBox} ${styles.blue}`}>
+                                <Activity size={24} />
+                            </Box>
+                            <Typography variant="subtitle2" color="textSecondary">Tổng lượt nhận diện</Typography>
                         </Box>
                         <Box className={styles.statContent}>
-                            <Typography className={styles.statLabel}>Tổng Lần Nhận Diện</Typography>
-                            <Typography className={styles.statValue}>{total}</Typography>
-                            <Typography className={styles.statDesc}>Đã nhận diện</Typography>
+                            <Typography variant="h3" className={styles.value}>{total}</Typography>
+                            <Typography variant="caption" className={styles.trend}>
+                                <TrendingUp size={14} /> +12% so với tuần trước
+                            </Typography>
                         </Box>
-                    </Box>
+                    </Paper>
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={3}>
-                    <Box className={styles.statCard}>
-                        <Box className={`${styles.statIcon} ${styles.iconSuccess}`}>
-                            <CheckCircle size={32} />
+                    <Paper elevation={0} className={styles.statCard}>
+                        <Box className={styles.cardHeader}>
+                            <Box className={`${styles.iconBox} ${styles.green}`}>
+                                <CheckCircle size={24} />
+                            </Box>
+                            <Typography variant="subtitle2" color="textSecondary">Loại phổ biến nhất</Typography>
                         </Box>
                         <Box className={styles.statContent}>
-                            <Typography className={styles.statLabel}>Loại Phổ Biến</Typography>
-                            <Typography className={styles.statValue}>{mostCommon?.type || 'N/A'}</Typography>
-                            <Typography className={styles.statDesc}>{mostCommon?.count || 0} lần</Typography>
+                            <Typography variant="h4" className={styles.valueText}>{mostCommon?.type || 'N/A'}</Typography>
+                            <Typography variant="caption" color="textSecondary">Xuất hiện {mostCommon?.count || 0} lần</Typography>
                         </Box>
-                    </Box>
+                    </Paper>
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={3}>
-                    <Box className={styles.statCard}>
-                        <Box className={`${styles.statIcon} ${styles.iconWarning}`}>
-                            <TrendingUp size={32} />
+                    <Paper elevation={0} className={styles.statCard}>
+                        <Box className={styles.cardHeader}>
+                            <Box className={`${styles.iconBox} ${styles.orange}`}>
+                                <PieChart size={24} />
+                            </Box>
+                            <Typography variant="subtitle2" color="textSecondary">Độ chính xác TB</Typography>
                         </Box>
                         <Box className={styles.statContent}>
-                            <Typography className={styles.statLabel}>Tỉ Lệ Thành Công</Typography>
-                            <Typography className={styles.statValue}>98%</Typography>
-                            <Typography className={styles.statDesc}>Trong tháng</Typography>
+                            <Typography variant="h3" className={styles.value}>98.5%</Typography>
+                            <LinearProgress variant="determinate" value={98.5} className={styles.miniProgress} />
                         </Box>
-                    </Box>
+                    </Paper>
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={3}>
-                    <Box className={styles.statCard}>
-                        <Box className={`${styles.statIcon} ${styles.iconInfo}`}>
-                            <AlertCircle size={32} />
+                    <Paper elevation={0} className={styles.statCard}>
+                        <Box className={styles.cardHeader}>
+                            <Box className={`${styles.iconBox} ${styles.purple}`}>
+                                <BarChart3 size={24} />
+                            </Box>
+                            <Typography variant="subtitle2" color="textSecondary">Danh mục biển báo</Typography>
                         </Box>
                         <Box className={styles.statContent}>
-                            <Typography className={styles.statLabel}>Loại Khác Nhau</Typography>
-                            <Typography className={styles.statValue}>{uniqueTypes}</Typography>
-                            <Typography className={styles.statDesc}>Được hệ thống hỗ trợ</Typography>
+                            <Typography variant="h3" className={styles.value}>{uniqueTypes}</Typography>
+                            <Typography variant="caption" color="textSecondary">Đang được theo dõi</Typography>
                         </Box>
-                    </Box>
+                    </Paper>
                 </Grid>
 
                 {/* Distribution Chart */}
                 <Grid item xs={12}>
-                    <Card className={styles.chartCard}>
+                    <Paper elevation={0} className={styles.chartCard}>
                         <CardContent>
-                            <Typography className={styles.chartTitle}>📈 Phân Bố Theo Loại Biển Báo</Typography>
+                            <Box className={styles.chartHeader}>
+                                <Typography variant="h6" className={styles.chartTitle}>Phân Bố Dữ Liệu Nhận Diện</Typography>
+                                <Box className={styles.legend}>
+                                    <span className={styles.dot}></span> Dữ liệu thực tế
+                                </Box>
+                            </Box>
                             
                             <Box className={styles.chartContainer}>
                                 {byType.map((t, index) => {
@@ -136,30 +157,31 @@ const Dashboard = () => {
                                     
                                     return (
                                         <Box key={t.type} className={styles.typeItem}>
-                                            <Box className={styles.typeInfo}>
-                                                <Box className={styles.typeBadge} style={{ backgroundColor: color }}>
-                                                    {t.type}
-                                                </Box>
-                                                <span className={styles.typeCount}>{t.count} báo ({percent}%)</span>
+                                            <Box className={styles.labelRow}>
+                                                <span className={styles.typeName}>{t.type}</span>
+                                                <span className={styles.typePercent}>{percent}%</span>
                                             </Box>
                                             <Box className={styles.barContainer}>
                                                 <Box 
                                                     className={styles.barFill} 
                                                     style={{ 
                                                         width: `${percent}%`,
-                                                        backgroundColor: color
+                                                        backgroundColor: color,
+                                                        boxShadow: `0 2px 8px ${color}66`
                                                     }} 
                                                 />
                                             </Box>
+                                            <span className={styles.countLabel}>{t.count} lượt</span>
                                         </Box>
                                     );
                                 })}
                             </Box>
                         </CardContent>
-                    </Card>
+                    </Paper>
                 </Grid>
             </Grid>
             )}
+            </Container>
         </div>
     );
 };
