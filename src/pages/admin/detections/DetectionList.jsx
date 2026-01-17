@@ -91,7 +91,7 @@ const DetectionList = () => {
 
     if (loading) {
         return (
-            <div className={styles.loadingContainer}>
+            <div className={styles?.loadingContainer || 'loading'}>
                 <CircularProgress />
                 <p>Đang tải dữ liệu...</p>
             </div>
