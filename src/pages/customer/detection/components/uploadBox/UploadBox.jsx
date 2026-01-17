@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './UploadBox.module.scss';
-import { Upload, Loader2, Image as ImageIcon, Video } from 'lucide-react';
+import { Upload, Loader2 } from 'lucide-react';
 
 const UploadBox = ({ onDetected, loading }) => {
     const [preview, setPreview] = useState(null);
@@ -25,23 +25,26 @@ const UploadBox = ({ onDetected, loading }) => {
             {!preview ? (
                 <label className={styles.dropzone}>
                     <div className={styles.iconBox}><Upload size={40} /></div>
-                    <p>Tải lên Ảnh hoặc Video giao thông</p>
-                    <span>Hệ thống AI sẽ tự động nhận diện biển báo</span>
+                    <p>Nhấn vào đây để tải ảnh/video</p>
+                    <span>Hệ thống AI sẽ tự động phân tích</span>
                     <input type="file" accept="image/*,video/*" onChange={handleFileChange} hidden />
                 </label>
             ) : (
                 <div className={styles.previewWrapper}>
                     {isVideo ? (
-                        <video src={preview} className={styles.imgPreview} controls />
+                        <video src={preview} className={styles.imgPreview} muted />
                     ) : (
                         <img src={preview} alt="Preview" className={styles.imgPreview} />
                     )}
+                    
+                    {loading && <div className={styles.scanningLine}></div>}
+
                     <div className={styles.actionGroup}>
                         <button className={styles.btnMain} onClick={() => onDetected(file)} disabled={loading}>
-                            {loading ? <Loader2 className={styles.spin} /> : "Bắt đầu phân tích AI"}
+                            {loading ? <><Loader2 className={styles.spin} /> Đang xử lý...</> : "Bắt đầu nhận diện"}
                         </button>
                         <button className={styles.btnReset} onClick={() => {setPreview(null); setFile(null);}} disabled={loading}>
-                            Chọn file khác
+                            Hủy
                         </button>
                     </div>
                 </div>
