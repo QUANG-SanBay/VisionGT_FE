@@ -4,7 +4,6 @@ const AddUser = ({ onAdd }) => {
   const [showModal, setShowModal] = useState(false);
 
   const [form, setForm] = useState({
-    username: "",
     email: "",
     full_name: "",
     gender: "other",
@@ -17,7 +16,7 @@ const AddUser = ({ onAdd }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = () => {
-    if (!form.username || !form.email || !form.full_name) {
+    if (!form.email || !form.full_name) {
       alert("❌ Vui lòng nhập đầy đủ thông tin");
       return;
     }
@@ -29,7 +28,6 @@ const AddUser = ({ onAdd }) => {
 
     onAdd({
       id: Date.now(),
-      username: form.username,
       email: form.email,
       full_name: form.full_name,
       gender: form.gender,
@@ -41,7 +39,6 @@ const AddUser = ({ onAdd }) => {
     alert("➕ Thêm người dùng thành công");
 
     setForm({
-      username: "",
       email: "",
       full_name: "",
       gender: "other",
@@ -55,11 +52,11 @@ const AddUser = ({ onAdd }) => {
 
   return (
     <>
-      {/* ===== NÚT MỞ MODAL ===== */}
+      {/* ===== CARD MỞ MODAL ===== */}
       <div className="card">
         <h2 style={{ color: "#0284c7" }}>👥 Thêm người dùng mới</h2>
         <button className="btn btn-add" onClick={() => setShowModal(true)}>
-          ➕ Thêm người dùng 
+          ➕ Thêm người dùng
         </button>
       </div>
 
@@ -75,20 +72,10 @@ const AddUser = ({ onAdd }) => {
               </button>
             </div>
 
-            {/* ===== HÀNG 1: THÔNG TIN ===== */}
-            <div className="adduser-row">
+            {/* ===== HÀNG 1: FORM THÔNG TIN ===== */}
+            <div className="modal-body form-grid">
               <div>
-                <label>Username</label>
-                <input
-                  className="input"
-                  name="username"
-                  value={form.username}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div>
-                <label>Email</label>
+                <label><b>Email</b></label>
                 <input
                   className="input"
                   name="email"
@@ -98,7 +85,7 @@ const AddUser = ({ onAdd }) => {
               </div>
 
               <div>
-                <label>Họ và tên</label>
+                <label><b>Họ và tên</b></label>
                 <input
                   className="input"
                   name="full_name"
@@ -108,7 +95,7 @@ const AddUser = ({ onAdd }) => {
               </div>
 
               <div>
-                <label>Giới tính</label>
+                <label><b>Giới tính</b></label>
                 <select
                   className="input"
                   name="gender"
@@ -122,7 +109,7 @@ const AddUser = ({ onAdd }) => {
               </div>
 
               <div>
-                <label>Vai trò</label>
+                <label><b>Vai trò</b></label>
                 <select
                   className="input"
                   name="role"
@@ -135,7 +122,7 @@ const AddUser = ({ onAdd }) => {
               </div>
 
               <div>
-                <label>Mật khẩu</label>
+                <label><b>Mật khẩu</b></label>
                 <input
                   className="input"
                   type="password"
@@ -146,7 +133,7 @@ const AddUser = ({ onAdd }) => {
               </div>
 
               <div>
-                <label>Nhập lại mật khẩu</label>
+                <label><b>Nhập lại mật khẩu</b></label>
                 <input
                   className="input"
                   type="password"

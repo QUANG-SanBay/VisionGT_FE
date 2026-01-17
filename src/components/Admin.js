@@ -34,7 +34,6 @@ function App() {
 
   return (
     <div className="container">
-      <h1 className="admin-title">🚦 ADMIN - VISION GT</h1>
       <AddUser onAdd={addUser} />
       <UserList
         users={users}

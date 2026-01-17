@@ -177,3 +177,18 @@ tbody tr:hover {
   margin-top: 20px;
   text-align: right;
 }
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 18px;
+}
+
+.form-grid > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.adduser-action {
+  margin-top: 20px;
+  text-align: right;
+}
