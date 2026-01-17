@@ -25,7 +25,7 @@ const detectionApi = {
         return axiosClient.get(`/api/recognition/detection/${id}/`);
     },
 
-    getDashboardStats: () => {
+    getDetectionStats: () => {
         return axiosClient.get('/detection/stats/');
     }
 };
