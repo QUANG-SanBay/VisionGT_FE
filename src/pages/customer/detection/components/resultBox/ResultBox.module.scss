@@ -2,9 +2,10 @@
   width: 100%;
 }
 
+/* --- HEADER SECTION --- */
 .stickyHeader {
   background: #ffffff;
-  padding: 24px;
+  padding: 16px 24px;
   border-radius: 16px;
   margin-bottom: 24px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -20,26 +21,34 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    h1 { font-size: 1.5rem; margin: 0; color: #0f172a; font-weight: 800; }
+    h1 { font-size: 1.3rem; margin: 0; color: #0f172a; font-weight: 800; }
+    
+    .miniMeta {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      font-weight: 600;
+      margin-top: 2px;
+      display: flex;
+      gap: 10px;
+    }
   }
 
   .backBtn {
     display: flex; align-items: center; gap: 8px;
-    padding: 10px 20px; border-radius: 10px; border: 1px solid #e2e8f0;
+    padding: 8px 16px; border-radius: 10px; border: 1px solid #e2e8f0;
     background: #fff; cursor: pointer; font-weight: 700; color: #475569;
     transition: all 0.2s;
     &:hover { background: #0f172a; color: #fff; border-color: #0f172a; }
   }
   
   .statusBadge {
-    padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 800;
-    background: #dbeafe; color: #1e40af; // Xanh lam nhạt
+    padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 800;
+    background: #dbeafe; color: #1e40af;
     &.waiting { background: #f1f5f9; color: #475569; }
   }
-
-  .dateTime { color: #64748b; font-weight: 600; font-size: 0.9rem; }
 }
 
+/* --- GRID LAYOUT --- */
 .layoutGrid {
   display: grid;
   grid-template-columns: 1fr 380px;
@@ -47,7 +56,10 @@
   @media (max-width: 1024px) { grid-template-columns: 1fr; }
 }
 
-/* KHUNG HIỂN THỊ HÌNH ẢNH */
+.leftColumn { display: flex; flex-direction: column; gap: 24px; }
+.rightColumn { display: flex; flex-direction: column; gap: 24px; }
+
+/* --- KHUNG HIỂN THỊ HÌNH ẢNH / VIDEO --- */
 .mediaContainer {
   background: #ffffff;
   border-radius: 16px;
@@ -56,10 +68,10 @@
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 
   .cardHeader {
-    padding: 16px 20px;
-    background: #0f172a; // Đen
+    padding: 14px 20px;
+    background: #0f172a;
     color: #ffffff;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 700;
     display: flex;
     align-items: center;
@@ -68,8 +80,8 @@
 
   .imageBox {
     width: 100%;
-    height: 480px; // Cố định chiều cao
-    background: #1e293b;
+    height: 500px; 
+    background: #0f172a; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -83,25 +95,23 @@
   }
 }
 
-/* CỘT PHẢI: KẾT QUẢ TÓM TẮT */
-.rightColumn { display: flex; flex-direction: column; gap: 24px; }
-
+/* --- CỘT PHẢI: THỐNG KÊ & TÓM TẮT --- */
 .actionCard {
-  background: #ffffff; padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0;
+  background: #ffffff; padding: 24px; border-radius: 16px; border: 1px solid #e2e8f0;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   text-align: center;
 
   .totalStats {
-    margin-bottom: 24px;
-    .statLabel { color: #64748b; font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .statValue { font-size: 3.5rem; font-weight: 900; color: #1e40af; line-height: 1; margin-top: 8px;
-      span { font-size: 1.1rem; color: #94a3b8; font-weight: 600; }
+    margin-bottom: 20px;
+    .statLabel { color: #64748b; font-weight: 700; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; }
+    .statValue { font-size: 3rem; font-weight: 900; color: #1e40af; line-height: 1; margin-top: 8px;
+      span { font-size: 1rem; color: #94a3b8; font-weight: 600; }
     }
   }
 }
 
 .lookupBtn {
-  width: 100%; padding: 16px; background: #2563eb; color: #fff; border: none; border-radius: 12px;
+  width: 100%; padding: 14px; background: #2563eb; color: #fff; border: none; border-radius: 10px;
   font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
   transition: 0.3s;
   &:hover:not(:disabled) { background: #1e40af; transform: translateY(-2px); box-shadow: 0 8px 15px rgba(37, 99, 235, 0.3); }
@@ -109,136 +119,140 @@
 }
 
 .summaryCard {
-  background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; padding: 24px;
-  h3 { color: #0f172a; margin: 0 0 20px 0; font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+  background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; padding: 20px;
+  h3 { color: #0f172a; margin: 0 0 15px 0; font-size: 1rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
 }
 
+/* --- PHẦN TÓM TẮT KẾT QUẢ ĐÃ SỬA --- */
 .summaryItem {
-  background: #f8fafc; padding: 16px; border-radius: 12px; margin-bottom: 12px; border: 1px solid #f1f5f9;
-  transition: 0.2s;
-  &:hover { border-color: #2563eb; background: #fff; }
-  
+  background: #ffffff;
+  padding: 18px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #8eafdb;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: 0.2s ease;
+
+  &:hover { 
+    border-color: #2563eb; 
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+  }
+
   .itemTop {
     display: flex; justify-content: space-between; align-items: center;
-    .itemName { font-weight: 800; color: #1e293b; font-size: 0.95rem; }
-    .itemCount { background: #1e40af; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 800; }
+    .itemName { 
+      font-weight: 800; 
+      color: #0f172a; // Chữ đen sâu
+      font-size: 1.05rem; // Chữ to hơn
+    }
+    .itemCount { 
+      background: #1e40af; 
+      color: #fff; 
+      padding: 4px 10px; 
+      border-radius: 6px; 
+      font-size: 0.75rem; 
+      font-weight: 800; 
+    }
   }
-  .itemBottom {
-    margin-top: 10px; display: flex; gap: 15px; color: #64748b; font-size: 0.8rem; font-weight: 600;
-    span { display: flex; align-items: center; gap: 4px; svg { color: #2563eb; } }
+
+  .itemStats {
+    display: flex; gap: 15px; color: #475569; font-size: 0.85rem; font-weight: 600;
+    span { 
+      display: flex; align-items: center; gap: 6px; 
+      svg { color: #2563eb; } 
+    }
+  }
+
+  .appearancesBox {
+    margin-top: 6px;
+    padding: 12px;
+    background: #f8fafc; // Nền xanh xám nhạt để nổi bật vùng thời gian
+    border-radius: 8px;
+    border: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .boxLabel {
+      font-size: 0.65rem;
+      color: #64748b;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    .appRow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem; // Giây xuất hiện to rõ
+      color: #1e40af; // Xanh lam đậm chuyên nghiệp
+      font-weight: 700;
+      font-family: 'Courier New', Courier, monospace;
+
+      svg { color: #94a3b8; }
+      .arrow { color: #cbd5e1; font-weight: 400; font-size: 1rem; }
+      
+      .durationTag { 
+        color: #1e40af; 
+        font-size: 0.75rem; 
+        font-weight: 700; 
+        margin-left: auto;
+        background: #dbeafe; // Tag thời lượng
+        padding: 2px 8px;
+        border-radius: 4px;
+      }
+    }
   }
 }
 
-/* CHI TIẾT PHÁP LUẬT - LÀM NHỎ GỌN */
+/* --- PHẦN CHI TIẾT PHÁP LUẬT --- */
 .detailSection {
   margin-top: 30px;
   .sectionHeading {
     display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
     h2 { font-size: 1.2rem; color: #0f172a; font-weight: 800; margin: 0; }
-    svg { color: #2563eb; width: 20px; }
+    svg { color: #2563eb; width: 22px; }
   }
 }
 
-/* Hiển thị 2 thẻ trên 1 hàng để thu nhỏ diện tích */
 .lawCardsGrid { 
-  display: grid;
+  display: grid; 
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); 
   gap: 16px; 
-
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-  }
+  @media (max-width: 600px) { grid-template-columns: 1fr; }
 }
 
 .lawCard {
-  background: #ffffff; 
-  border-radius: 12px; 
-  border: 1px solid #e2e8f0;
-  overflow: hidden; 
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.2s;
-
+  background: #ffffff; border-radius: 12px; border: 1px solid #86a1ca;
+  overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  display: flex; flex-direction: column; transition: transform 0.2s;
   &:hover { transform: translateY(-2px); border-color: #2563eb; }
   
   .lawCardHeader {
-    padding: 12px 16px; // Giảm padding
-    background: #f8fafc; 
-    border-bottom: 1px solid #f1f5f9;
-    display: flex; 
-    align-items: center; 
-    gap: 10px;
-
-    .signCode { 
-      background: #0f172a; 
-      color: #fff; 
-      padding: 4px 8px; 
-      border-radius: 6px; 
-      font-weight: 800; 
-      font-size: 0.75rem; // Chữ mã biển nhỏ lại
-    }
-    .signName { 
-      font-size: 0.95rem; // Tên biển nhỏ lại
-      font-weight: 800; 
-      color: #1e293b;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    padding: 12px 16px; background: #f8fafc; border-bottom: 1px solid #f1f5f9;
+    display: flex; align-items: center; gap: 10px;
+    .signCode { background: #0f172a; color: #fff; padding: 4px 8px; border-radius: 6px; font-weight: 800; font-size: 0.75rem; }
+    .signName { font-size: 0.95rem; font-weight: 800; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   }
   
   .lawCardBody {
-    padding: 16px; // Giảm padding body
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-
-    .infoGroup { 
-      margin-bottom: 8px; 
-      font-size: 0.85rem;
-      label { color: #64748b; margin-right: 6px; }
-      span { font-weight: 700; color: #2563eb; } 
-    }
-
-    .descriptionText { 
-      color: #475569; 
-      line-height: 1.5; 
-      font-size: 0.85rem; // Font chữ mô tả nhỏ lại
-      margin-bottom: 12px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2; // Giới hạn tối đa 2 dòng mô tả cho gọn
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
+    padding: 16px; flex: 1; display: flex; flex-direction: column;
+    .infoGroup { margin-bottom: 8px; font-size: 0.85rem; label { color: #64748b; margin-right: 6px; } span { font-weight: 700; color: #2563eb; } }
+    .descriptionText { color: #475569; line-height: 1.5; font-size: 0.85rem; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     
     .penaltyBox {
-      background: #fff1f2; 
-      padding: 12px; // Nhỏ gọn lại
-      border-radius: 8px; 
-      border: 1px solid #ffe4e6;
-      margin-top: auto; // Đẩy xuống dưới cùng thẻ
-
-      .penaltyTitle { 
-        color: #be123c; 
-        font-weight: 800; 
-        font-size: 0.75rem; 
-        display: flex; 
-        align-items: center; 
-        gap: 6px; 
-        margin-bottom: 4px; 
-        text-transform: uppercase;
-      }
-      .penaltyContent { 
-        color: #9f1239; 
-        font-weight: 700; 
-        font-size: 0.85rem; 
-        line-height: 1.4;
-      }
+      background: #fff1f2; padding: 12px; border-radius: 8px; border: 1px solid #ffe4e6; margin-top: auto;
+      .penaltyTitle { color: #be123c; font-weight: 800; font-size: 0.75rem; display: flex; align-items: center; gap: 6px; margin-bottom: 4px; text-transform: uppercase; }
+      .penaltyContent { color: #9f1239; font-weight: 700; font-size: 0.85rem; line-height: 1.4; }
     }
   }
 }
 
+/* --- COMMON --- */
 .empty { text-align: center; color: #94a3b8; padding: 40px; font-weight: 600; }
 .spin { animation: spin 1s linear infinite; }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
