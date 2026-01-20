@@ -1,45 +1,40 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Header.css";
 
-const Header = () => {
-  const isLogin = !!localStorage.getItem("token");
+export default function Header({ user }) {
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <header className="header">
-      <div className="header-container">
-        <div className="logo">
-          <Link to="/">VisionGT</Link>
+      <div className="header-left">
+        <span className="brand">VisionGT</span>
+      </div>
+
+
+      <div className="header-right">
+        <div className="avatar-wrapper" onClick={() => setOpen(!open)}>
+          <img
+            src={user?.avatar || "../assets/images/avatar-default.png"}
+            alt="avatar"
+            className="avatar"
+          />
         </div>
 
-        <nav className="nav">
-          <Link to="/">Trang chủ</Link>
-          <Link to="/customer/detection">Nhận diện</Link>
-          {isLogin && <Link to="/history">Lịch sử</Link>}
-        </nav>
+        {open && (
+          <div className="dropdown">
+            <div className="dropdown-item">Thông tin cá nhân</div>
 
-        <div className="auth">
-          {!isLogin ? (
-            <>
-              <Link to="/login">Đăng nhập</Link>
-              <Link to="/register" className="btn">
-                Đăng ký
-              </Link>
-            </>
-          ) : (
-            <button
-              className="btn logout"
-              onClick={() => {
-                localStorage.clear();
-                location.href = "/login";
-              }}
-            >
-              Đăng xuất
-            </button>
-          )}
-        </div>
+            {user?.role === "admin" && (
+              <div className="dropdown-item">Quản trị hệ thống</div>
+            )}
+
+            <div className="dropdown-item" onClick={() => { navigate("/history"); setOpen(false); }}>Lịch sử nhận diện</div>
+            <div className="dropdown-item logout">Đăng xuất</div>
+          </div>
+        )}
       </div>
     </header>
   );
-};
-
-export default Header;
+}

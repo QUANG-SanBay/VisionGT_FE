@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8000/api/history/";
+const API_URL = "http://127.0.0.1:8000/api/recognition/history/";
 
 export const getHistory = () => {
   return axios.get(API_URL, {
