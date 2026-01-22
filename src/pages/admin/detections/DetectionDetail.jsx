@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button, CircularProgress, Card, CardContent, Box, Alert, Typography, Chip, CardMedia } from '@mui/material';
-import { ArrowLeft, AlertTriangle, CheckCircle, Clock, Video, Image as ImageIcon } from 'lucide-react';
+import { Button, CircularProgress, Card, CardContent, Box, Alert, Chip, CardMedia, Grid, Paper, Divider } from '@mui/material';
+import { ArrowLeft, AlertTriangle, CheckCircle, Clock, Tag, FileText, Activity, Calendar } from 'lucide-react';
 import styles from './Detections.module.scss';
 import detectionApi from '../../../api/detectionApi';
 
@@ -47,91 +47,93 @@ const DetectionDetail = () => {
     }
 
     return (
-        <div className={styles.detectionDetailPage}>
-            <Box className={styles.detailHeader}>
-                <Button 
-                    variant="outlined" 
-                    onClick={() => navigate(-1)}
-                    startIcon={<ArrowLeft size={20} />}
-                    className={styles.backBtn}
-                >
-                    Quay lại
-                </Button>
-                <h1 className={styles.detailTitle}>📋 Chi Tiết Lần Nhận Diện</h1>
-            </Box>
+        <div className={styles.pageRoot}>
+            <div className={styles.topBar}>
+                <div className={styles.container}>
+                    <Button 
+                        onClick={() => navigate(-1)}
+                        startIcon={<ArrowLeft size={18} />}
+                        className={styles.backBtn}
+                    >
+                        Quay lại danh sách
+                    </Button>
+                    <div className={styles.headerMeta}>
+                        <Chip icon={<Tag size={14}/>} label={`ID: #${id}`} className={styles.metaChip} />
+                        <Chip icon={<Calendar size={14}/>} label={detection?.detectedAt || 'N/A'} className={styles.metaChip} />
+                    </div>
+                </div>
+            </div>
 
-            {error && (
-                <Alert severity="warning" style={{ marginBottom: 24 }} icon={<AlertTriangle size={20} />}>
-                    {error}
-                </Alert>
-            )}
+            <div className={styles.container}>
+                {error && (
+                    <Alert severity="error" className={styles.alert} icon={<AlertTriangle size={20} />}>
+                        {error}
+                    </Alert>
+                )}
 
-            {detection ? (
-                <Box className={styles.detailContainer}>
-                    <Card className={styles.imageCard}>
-                        <CardMedia
-                            component="img"
-                            image={detection.image}
-                            alt={detection.name}
-                            className={styles.detailImage}
-                        />
-                    </Card>
+                {detection ? (
+                    <Grid container spacing={4}>
+                        {/* Left Column: Media */}
+                        <Grid item xs={12} lg={7}>
+                            <Paper elevation={0} className={styles.mediaPaper}>
+                                <div className={styles.mediaHeader}>
+                                    <Activity size={18} /> Hình ảnh phân tích
+                                </div>
+                                <div className={styles.imageWrapper}>
+                                    <CardMedia
+                                        component="img"
+                                        image={detection.image}
+                                        alt={detection.name}
+                                        className={styles.detailImage}
+                                    />
+                                </div>
+                            </Paper>
+                        </Grid>
 
-                    <Box className={styles.detailContent}>
-                        <Card className={styles.infoCard}>
-                            <CardContent>
-                                {/* Tiêu đề */}
-                                <Box className={styles.titleSection}>
-                                    <h2 className={styles.detailName}>{detection.name}</h2>
-                                    <Box className={styles.confidenceBadge}>
-                                        <CheckCircle size={20} />
-                                        <span>{detection.confidence}% Tin cậy</span>
+                        {/* Right Column: Info */}
+                        <Grid item xs={12} lg={5}>
+                            <Card className={styles.infoCard} elevation={0}>
+                                <CardContent className={styles.cardContent}>
+                                    <Box className={styles.titleSection}>
+                                        <h1 className={styles.detailName}>{detection.name}</h1>
+                                        <Chip 
+                                            icon={<CheckCircle size={16} />} 
+                                            label={`${detection.confidence}% Tin cậy`} 
+                                            className={styles.confidenceChip}
+                                            color={detection.confidence > 80 ? "success" : "warning"}
+                                        />
                                     </Box>
-                                </Box>
 
-                                {/* Thông tin grid */}
-                                <Box className={styles.infoGrid}>
-                                    <Box className={styles.infoItem}>
-                                        <span className={styles.infoLabel}>ID</span>
-                                        <span className={styles.infoValue}>#{detection.id}</span>
-                                    </Box>
-                                    <Box className={styles.infoItem}>
-                                        <span className={styles.infoLabel}>Loại Biển Báo</span>
-                                        <Box className={styles.typeBadgeDetail}>{detection.type}</Box>
-                                    </Box>
-                                    <Box className={styles.infoItem}>
-                                        <span className={styles.infoLabel}>Ngày Phát Hiện</span>
-                                        <span className={styles.infoValue}>{detection.detectedAt}</span>
-                                    </Box>
-                                    <Box className={styles.infoItem}>
-                                        <span className={styles.infoLabel}>Độ Chính Xác</span>
-                                        <Box className={styles.confidenceDetailBar}>
-                                            <Box 
-                                                className={styles.confidenceDetailFill}
-                                                style={{ width: `${detection.confidence}%` }}
-                                            />
+                                    <Divider className={styles.divider} />
+
+                                    <Box className={styles.infoList}>
+                                        <Box className={styles.infoRow}>
+                                            <span className={styles.label}>Phân loại</span>
+                                            <span className={styles.valueHighlight}>{detection.type}</span>
                                         </Box>
-                                        <span className={styles.confidencePercent}>{detection.confidence}%</span>
+                                        <Box className={styles.infoRow}>
+                                            <span className={styles.label}>Thời gian</span>
+                                            <span className={styles.value}>{detection.detectedAt}</span>
+                                        </Box>
                                     </Box>
-                                </Box>
 
-                                {/* Mô tả */}
-                                {detection.description && (
-                                    <Box className={styles.descriptionSection}>
-                                        <h3>Mô Tả</h3>
-                                        <p>{detection.description}</p>
-                                    </Box>
-                                )}
-                            </CardContent>
-                        </Card>
-                    </Box>
-                </Box>
-            ) : (
-                <Card className={styles.emptyCard}>
-                    <AlertTriangle size={48} className={styles.emptyIcon} />
-                    <p className={styles.emptyText}>Không có dữ liệu để hiển thị</p>
-                </Card>
-            )}
+                                    {detection.description && (
+                                        <Box className={styles.descriptionBox}>
+                                            <h3 className={styles.descTitle}><FileText size={16}/> Mô tả chi tiết</h3>
+                                            <p className={styles.descText}>{detection.description}</p>
+                                        </Box>
+                                    )}
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    </Grid>
+                ) : (
+                    <Card className={styles.emptyCard}>
+                        <AlertTriangle size={48} className={styles.emptyIcon} />
+                        <p className={styles.emptyText}>Không có dữ liệu để hiển thị</p>
+                    </Card>
+                )}
+            </div>
         </div>
     );
 };
