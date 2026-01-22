@@ -1,0 +1,215 @@
+.admin-header {
+  height: 70px;
+  background: #1e293b;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.admin-left {
+  display: flex;
+  align-items: center;
+}
+
+.admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #fff;
+}
+
+.admin-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.admin-badge {
+  background: #3b82f6;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.admin-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-nav a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.admin-nav a:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.admin-nav a.active {
+  color: #fff;
+  background: #3b82f6;
+}
+
+.admin-nav a i {
+  font-size: 14px;
+}
+
+.admin-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+
+.admin-notifications {
+  position: relative;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.admin-notifications i {
+  font-size: 18px;
+  color: #94a3b8;
+  transition: color 0.2s ease;
+}
+
+.admin-notifications:hover i {
+  color: #fff;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.admin-user:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.admin-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #3b82f6;
+}
+
+.admin-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-user-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.admin-user-role {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.admin-user .chevron {
+  font-size: 12px;
+  color: #94a3b8;
+  transition: transform 0.2s ease;
+}
+
+.admin-user .chevron.rotate {
+  transform: rotate(180deg);
+}
+
+.admin-dropdown {
+  position: absolute;
+  right: 0;
+  top: 60px;
+  width: 220px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  z-index: 100;
+}
+
+.admin-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: #334155;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.admin-dropdown-item:hover {
+  background: #f1f5f9;
+}
+
+.admin-dropdown-item i {
+  width: 16px;
+  color: #64748b;
+}
+
+.admin-dropdown-divider {
+  height: 1px;
+  background: #e2e8f0;
+  margin: 4px 0;
+}
+
+.admin-dropdown-item.logout {
+  color: #ef4444;
+}
+
+.admin-dropdown-item.logout i {
+  color: #ef4444;
+}
+
+@media (max-width: 1024px) {
+  .admin-nav {
+    display: none;
+  }
+
+  .admin-user-info {
+    display: none;
+  }
+}
