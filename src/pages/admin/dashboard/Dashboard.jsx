@@ -1,188 +1,147 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Grid, CardContent, Typography, CircularProgress, Alert, Container, Paper, LinearProgress, Chip } from '@mui/material';
-import { BarChart3, TrendingUp, CheckCircle, Activity, PieChart, Calendar, Layers, ArrowUpRight } from 'lucide-react';
-import styles from './Dashboard.module.scss';
-import detectionApi from '../../../api/detectionApi';
+import React, { useEffect, useState } from 'react';
+import dashboardApi from '../../../api/dashboardApi';
+import { 
+    Users, Activity, AlertTriangle, CheckCircle, 
+    Clock, Shield, FileImage, FileVideo 
+} from 'lucide-react';
 
-// Dashboard page
-// - Gọi API `getDetectionStats()` để lấy số liệu thống kê
-// - Hiển thị các card tổng quan và biểu đồ/chi tiết đơn giản
 const Dashboard = () => {
     const [stats, setStats] = useState(null);
+    const [health, setHealth] = useState(null);
+    const [recentDetections, setRecentDetections] = useState([]);
+    const [topSigns, setTopSigns] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchStats = async () => {
+        const fetchData = async () => {
             try {
-                setLoading(true);
-                // Gọi API thống kê mới
-                const res = await detectionApi.getDashboardStats();
-                // Kỳ vọng backend trả về { total_detections, detections_by_type, most_common_sign, total_unique_types }
-                setStats(res.data);
-                setError(null);
-            } catch (err) {
-                console.error('Lỗi lấy thống kê:', err);
-                setError(err.response?.data?.detail || 'Không thể tải dữ liệu thống kê. API có thể chưa được cài đặt.');
-                setStats(null); // Xóa dữ liệu cũ khi có lỗi
+                const [statsRes, healthRes, recentRes, topSignsRes] = await Promise.all([
+                    dashboardApi.getStats(),
+                    dashboardApi.getSystemHealth(),
+                    dashboardApi.getRecentDetections(5),
+                    dashboardApi.getTopSigns(5)
+                ]);
+                setStats(statsRes.data);
+                setHealth(healthRes.data);
+                setRecentDetections(recentRes.data);
+                setTopSigns(topSignsRes.data);
+            } catch (error) {
+                console.error("Error fetching dashboard data:", error);
             } finally {
                 setLoading(false);
             }
         };
-
-        fetchStats();
+        fetchData();
     }, []);
 
-    if (loading) {
-        return (
-            <div className={styles.loadingContainer}>
-                <CircularProgress size={60} thickness={4} />
-                <p>Đang tải thống kê...</p>
-            </div>
-        );
-    }
-
-    // Cập nhật cấu trúc dữ liệu từ API mới
-    const total = stats?.total_detections ?? 0;
-    const byType = stats?.detections_by_type ?? [];
-    const mostCommon = stats?.most_common_sign;
-    const uniqueTypes = stats?.total_unique_types ?? 0;
-
-    const sumByType = byType.reduce((s, t) => s + (t.count || 0), 0) || 1;
+    if (loading) return <div className="p-6">Đang tải dữ liệu...</div>;
 
     return (
-        <div className={styles.root}>
-            <Container maxWidth="xl" className={styles.container}>
-            <Box className={styles.headerSection}>
-                <Box>
-                    <Typography variant="h4" className={styles.pageTitle}>Dashboard Tổng Quan</Typography>
-                    <Typography variant="body1" className={styles.pageSubtitle}>Báo cáo hiệu suất và thống kê nhận diện biển báo giao thông.</Typography>
-                </Box>
-                <Box className={styles.dateBadge}>
-                    <Calendar size={18} />
-                    <span>{new Date().toLocaleDateString('vi-VN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                </Box>
-            </Box>
+        <div className="p-6 bg-gray-50 min-h-screen">
+            <h1 className="text-2xl font-bold mb-6 text-gray-800">Dashboard Tổng Quan</h1>
+            
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center">
+                    <div className="p-4 rounded-full bg-blue-50 text-blue-600 mr-4">
+                        <Users size={24} />
+                    </div>
+                    <div>
+                        <p className="text-gray-500 text-sm font-medium">Tổng người dùng</p>
+                        <p className="text-2xl font-bold text-gray-800">{stats?.total_users}</p>
+                    </div>
+                </div>
+                
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center">
+                    <div className="p-4 rounded-full bg-green-50 text-green-600 mr-4">
+                        <Activity size={24} />
+                    </div>
+                    <div>
+                        <p className="text-gray-500 text-sm font-medium">Tổng lượt nhận diện</p>
+                        <p className="text-2xl font-bold text-gray-800">{stats?.total_detections}</p>
+                    </div>
+                </div>
 
-            {error && (
-                <Alert severity="error" className={styles.alert} variant="filled">
-                    {error}
-                </Alert>
-            )}
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center">
+                    <div className="p-4 rounded-full bg-yellow-50 text-yellow-600 mr-4">
+                        <AlertTriangle size={24} />
+                    </div>
+                    <div>
+                        <p className="text-gray-500 text-sm font-medium">Biển báo phát hiện</p>
+                        <p className="text-2xl font-bold text-gray-800">{stats?.total_detected_signs}</p>
+                    </div>
+                </div>
 
-            {stats && (
-            <Grid container spacing={3} className={styles.statsGrid}>
-                {/* Stat Cards */}
-                <Grid item xs={12} sm={6} md={3}>
-                    <Paper elevation={0} className={`${styles.statCard} ${styles.cardBlue}`}>
-                        <Box className={styles.cardHeader}>
-                            <Box className={styles.iconBox}>
-                                <Activity size={24} />
-                            </Box>
-                            <Typography variant="subtitle2" className={styles.cardLabel}>Tổng lượt nhận diện</Typography>
-                        </Box>
-                        <Box className={styles.statContent}>
-                            <Typography variant="h3" className={styles.value}>{total}</Typography>
-                            <Typography variant="caption" className={styles.trendPositive}>
-                                <TrendingUp size={14} /> +12% so với tuần trước
-                            </Typography>
-                        </Box>
-                    </Paper>
-                </Grid>
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center">
+                    <div className={`p-4 rounded-full mr-4 ${health?.system_status === 'healthy' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'}`}>
+                        <Shield size={24} />
+                    </div>
+                    <div>
+                        <p className="text-gray-500 text-sm font-medium">Trạng thái hệ thống</p>
+                        <p className="text-2xl font-bold text-gray-800 capitalize">{health?.system_status}</p>
+                        <p className="text-xs text-gray-500">Tỷ lệ thành công: {health?.success_rate}%</p>
+                    </div>
+                </div>
+            </div>
 
-                <Grid item xs={12} sm={6} md={3}>
-                    <Paper elevation={0} className={`${styles.statCard} ${styles.cardGreen}`}>
-                        <Box className={styles.cardHeader}>
-                            <Box className={styles.iconBox}>
-                                <CheckCircle size={24} />
-                            </Box>
-                            <Typography variant="subtitle2" className={styles.cardLabel}>Loại phổ biến nhất</Typography>
-                        </Box>
-                        <Box className={styles.statContent}>
-                            <Typography variant="h4" className={styles.valueText}>{mostCommon?.type || 'N/A'}</Typography>
-                            <Chip size="small" label={`${mostCommon?.count || 0} lần`} className={styles.miniChip} />
-                        </Box>
-                    </Paper>
-                </Grid>
-                <Grid item xs={12} sm={6} md={3}>
-                    <Paper elevation={0} className={`${styles.statCard} ${styles.cardOrange}`}>
-                        <Box className={styles.cardHeader}>
-                            <Box className={styles.iconBox}>
-                                <PieChart size={24} />
-                            </Box>
-                            <Typography variant="subtitle2" className={styles.cardLabel}>Độ chính xác TB</Typography>
-                        </Box>
-                        <Box className={styles.statContent}>
-                            <Typography variant="h3" className={styles.value}>98.5%</Typography>
-                            <Box className={styles.progressWrapper}>
-                                <LinearProgress variant="determinate" value={98.5} className={styles.miniProgress} />
-                            </Box>
-                        </Box>
-                    </Paper>
-                </Grid>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Recent Detections */}
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <h2 className="text-lg font-bold mb-4 text-gray-800 flex items-center">
+                        <Clock size={20} className="mr-2 text-blue-600" />
+                        Nhận diện gần đây
+                    </h2>
+                    <div className="space-y-4">
+                        {recentDetections.map((item) => (
+                            <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div className="flex items-center">
+                                    <div className={`p-2 rounded-lg mr-3 ${item.file_type === 'video' ? 'bg-purple-100 text-purple-600' : 'bg-indigo-100 text-indigo-600'}`}>
+                                        {item.file_type === 'video' ? <FileVideo size={18} /> : <FileImage size={18} />}
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-medium text-gray-800">#{item.id} - {item.user_email}</p>
+                                        <p className="text-xs text-gray-500">{new Date(item.created_at).toLocaleString('vi-VN')}</p>
+                                    </div>
+                                </div>
+                                <div className="text-right">
+                                    <span className={`px-2 py-1 text-xs font-semibold rounded-full 
+                                        ${item.status === 'done' ? 'bg-green-100 text-green-700' : 
+                                          item.status === 'failed' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                                        {item.status}
+                                    </span>
+                                    <p className="text-xs text-gray-500 mt-1">{item.detected_signs_count} biển báo</p>
+                                </div>
+                            </div>
+                        ))}
+                        {recentDetections.length === 0 && <p className="text-gray-500 text-center">Chưa có dữ liệu</p>}
+                    </div>
+                </div>
 
-                <Grid item xs={12} sm={6} md={3}>
-                    <Paper elevation={0} className={`${styles.statCard} ${styles.cardPurple}`}>
-                        <Box className={styles.cardHeader}>
-                            <Box className={styles.iconBox}>
-                                <Layers size={24} />
-                            </Box>
-                            <Typography variant="subtitle2" className={styles.cardLabel}>Danh mục biển báo</Typography>
-                        </Box>
-                        <Box className={styles.statContent}>
-                            <Typography variant="h3" className={styles.value}>{uniqueTypes}</Typography>
-                            <Typography variant="caption" className={styles.subText}>Đang được theo dõi</Typography>
-                        </Box>
-                    </Paper>
-                </Grid>
-
-                {/* Distribution Chart */}
-                <Grid item xs={12}>
-                    <Paper elevation={0} className={styles.chartCard}>
-                        <CardContent>
-                            <Box className={styles.chartHeader}>
-                                <Box>
-                                    <Typography variant="h6" className={styles.chartTitle}>
-                                        <BarChart3 size={20} /> Phân Bố Dữ Liệu Nhận Diện
-                                    </Typography>
-                                    <Typography variant="body2" color="textSecondary">Thống kê số lượng phát hiện theo từng loại biển báo</Typography>
-                                </Box>
-                                <Box className={styles.actionBox}>
-                                    <button className={styles.actionBtn}>
-                                        Chi tiết <ArrowUpRight size={16} />
-                                    </button>
-                                </Box>
-                            </Box>
-                            
-                            <Box className={styles.chartContainer}>
-                                {byType.map((t, index) => {
-                                    const percent = Math.round(((t.count || 0) / sumByType) * 100);
-                                    
-                                    return (
-                                        <Box key={t.type} className={styles.typeItem} style={{ '--delay': `${index * 0.1}s` }}>
-                                            <Box className={styles.labelRow}>
-                                                <span className={styles.typeName}>{t.type}</span>
-                                                <span className={styles.countLabel}>{t.count} lượt</span>
-                                            </Box>
-                                            <Box className={styles.barContainer}>
-                                                <Box 
-                                                    className={styles.barFill} 
-                                                    style={{ 
-                                                        width: `${percent}%`,
-                                                        '--bar-color': `var(--chart-color-${index % 5 + 1})`
-                                                    }} 
-                                                />
-                                            </Box>
-                                        </Box>
-                                    );
-                                })}
-                            </Box>
-                        </CardContent>
-                    </Paper>
-                </Grid>
-            </Grid>
-            )}
-            </Container>
+                {/* Top Signs */}
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <h2 className="text-lg font-bold mb-4 text-gray-800 flex items-center">
+                        <CheckCircle size={20} className="mr-2 text-green-600" />
+                        Top biển báo phổ biến
+                    </h2>
+                    <div className="space-y-4">
+                        {topSigns.map((sign, index) => (
+                            <div key={index} className="flex items-center justify-between border-b border-gray-100 pb-3 last:border-0">
+                                <div className="flex items-center">
+                                    <span className="w-6 h-6 flex items-center justify-center bg-gray-200 rounded-full text-xs font-bold text-gray-600 mr-3">
+                                        {index + 1}
+                                    </span>
+                                    <div>
+                                        <p className="text-sm font-medium text-gray-800">{sign.sign_name}</p>
+                                        <p className="text-xs text-gray-500">{sign.sign_code} - {sign.category}</p>
+                                    </div>
+                                </div>
+                                <span className="text-sm font-bold text-blue-600">{sign.count} lần</span>
+                            </div>
+                        ))}
+                        {topSigns.length === 0 && <p className="text-gray-500 text-center">Chưa có dữ liệu</p>}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
