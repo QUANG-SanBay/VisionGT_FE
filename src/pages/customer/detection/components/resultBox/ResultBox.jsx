@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './ResultBox.module.scss';
 import { 
     RefreshCcw, Gauge, History, Search, 
-    Loader2, Scale, AlertCircle, Info, LayoutDashboard, FileText
+    Loader2, Scale, AlertCircle, Info, LayoutDashboard, FileText, Clock, ArrowRight
 } from 'lucide-react';
 import detectionApi from '../../../../../api/detectionApi';
 import UploadBox from '../uploadBox/UploadBox';
@@ -24,7 +24,7 @@ const ResultBox = ({ data, onBack, onDetect, loading }) => {
         }
     };
 
-    const summaryEntries = data ? Object.entries(data.signs_summary || {}) : [];
+    const summaryEntries = data?.signs_summary ? Object.entries(data.signs_summary) : [];
 
     return (
         <div className={styles.scrollWrapper}>
@@ -32,14 +32,21 @@ const ResultBox = ({ data, onBack, onDetect, loading }) => {
                 <div className={styles.headerContent}>
                     <div className={styles.mainTitle}>
                         <LayoutDashboard size={28} color="#2563eb" />
-                        <h1>{data ? `Phiên nhận diện #${data.detection_id}` : 'Hệ thống nhận diện AI'}</h1>
+                        <div>
+                            <h1>{data ? `Phiên nhận diện #${data.detection_id}` : 'Hệ thống nhận diện biển báo'}</h1>
+                            {data?.duration && (
+                                <div className={styles.miniMeta}>
+                                    Thời lượng: {data.duration.toFixed(2)}s
+                                </div>
+                            )}
+                        </div>
                         <span className={`${styles.statusBadge} ${!data ? styles.waiting : ''}`}>
-                            {data ? 'ĐÃ HOÀN TẤT' : 'CHỜ TẢI LÊN'}
+                            {data ? 'HOÀN TẤT' : 'SẴN SÀNG'}
                         </span>
                     </div>
                     <div className={styles.rightHeader}>
                         <button className={styles.backBtn} onClick={onBack}>
-                            <RefreshCcw size={18} /> Làm mới hệ thống
+                            <RefreshCcw size={18} /> Làm mới
                         </button>
                     </div>
                 </div>
@@ -50,7 +57,7 @@ const ResultBox = ({ data, onBack, onDetect, loading }) => {
                     <div className={styles.leftColumn}>
                         <div className={styles.mediaContainer}>
                             <div className={styles.cardHeader}>
-                                <Info size={18} /> {data ? "HÌNH ẢNH SAU PHÂN TÍCH" : "CHƯA CÓ DỮ LIỆU ĐẦU VÀO"}
+                                <Info size={18} /> {data ? "KẾT QUẢ PHÂN TÍCH" : "TẢI FILE ĐỂ BẮT ĐẦU"}
                             </div>
                             <div className={styles.imageBox}>
                                 {data ? (
@@ -65,12 +72,11 @@ const ResultBox = ({ data, onBack, onDetect, loading }) => {
                             </div>
                         </div>
 
-                        {/* QUAN TRỌNG: Chỉ hiện khung này khi CÓ data và CÓ detailData */}
                         {data && detailData && (
                             <div className={styles.detailSection}>
                                 <div className={styles.sectionHeading}>
                                     <Scale size={24} />
-                                    <h2>Chi tiết quy định pháp luật & Mức phạt</h2>
+                                    <h2>Chi tiết quy định & Xử phạt</h2>
                                 </div>
                                 <div className={styles.lawCardsGrid}>
                                     {detailData.detected_signs?.map((sign, index) => (
@@ -80,10 +86,10 @@ const ResultBox = ({ data, onBack, onDetect, loading }) => {
                                                 <h3 className={styles.signName}>{sign.traffic_sign.name}</h3>
                                             </div>
                                             <div className={styles.lawCardBody}>
-                                                <div className={styles.infoGroup}><label>Phân loại:</label><span>{sign.traffic_sign.category}</span></div>
+                                                <div className={styles.infoGroup}><label>Loại:</label><span>{sign.traffic_sign.category}</span></div>
                                                 <p className={styles.descriptionText}>{sign.traffic_sign.description}</p>
                                                 <div className={styles.penaltyBox}>
-                                                    <div className={styles.penaltyTitle}><AlertCircle size={18} /> Mức xử phạt:</div>
+                                                    <div className={styles.penaltyTitle}><AlertCircle size={18} /> Mức phạt:</div>
                                                     <div className={styles.penaltyContent}>{sign.traffic_sign.penalty_details}</div>
                                                 </div>
                                             </div>
@@ -97,12 +103,12 @@ const ResultBox = ({ data, onBack, onDetect, loading }) => {
                     <div className={styles.rightColumn}>
                         <div className={styles.actionCard}>
                             <div className={styles.totalStats}>
-                                <span className={styles.statLabel}>Phát hiện được</span>
+                                <span className={styles.statLabel}>Phát hiện</span>
                                 <div className={styles.statValue}>{summaryEntries.length} <span>loại biển</span></div>
                             </div>
                             <button className={styles.lookupBtn} onClick={handleViewDetail} disabled={loadingDetail || !!detailData || !data}>
                                 {loadingDetail ? <Loader2 className={styles.spin} /> : <Search size={20} />}
-                                {detailData ? "ĐÃ TRA CỨU XONG" : "TRA CỨU LUẬT CHI TIẾT"}
+                                Tra cứu luật chi tiết
                             </button>
                         </div>
 
@@ -116,13 +122,37 @@ const ResultBox = ({ data, onBack, onDetect, loading }) => {
                                                 <span className={styles.itemName}>{name}</span>
                                                 <span className={styles.itemCount}>x{info.count}</span>
                                             </div>
-                                            <div className={styles.itemBottom}>
-                                                <span><Gauge size={14} /> Tin tưởng: {Math.round(info.avg_confidence * 100)}%</span>
+                                            
+                                            <div className={styles.itemStats}>
+                                                <span><Gauge size={14} /> Độ tin cậy: {Math.round(info.avg_confidence * 100)}%</span>
+                                                {/* Chỉ hiện tổng TG nếu là video */}
+                                                {data?.file_type === 'video' && info.total_duration !== undefined && (
+                                                    <span><History size={14} /> Tổng thời gian: {info.total_duration.toFixed(2)}s</span>
+                                                )}
                                             </div>
+
+                                            {/* HIỂN THỊ CHI TIẾT MỐC THỜI GIAN - CHỈ HIỆN KHI LÀ VIDEO VÀ CÓ DỮ LIỆU THỜI GIAN */}
+                                            {data?.file_type === 'video' && info.appearances && info.appearances.length > 0 && (
+                                                <div className={styles.appearancesBox}>
+                                                    <div className={styles.boxLabel}>Mốc thời gian xuất hiện:</div>
+                                                    {info.appearances.map((app, idx) => (
+                                                        // Kiểm tra nếu có start_time mới render hàng này
+                                                        app.start_time !== undefined && (
+                                                            <div key={idx} className={styles.appRow}>
+                                                                <Clock size={12} />
+                                                                <span>{app.start_time.toFixed(1)}s</span>
+                                                                <ArrowRight size={12} className={styles.arrow} />
+                                                                <span>{app.end_time.toFixed(1)}s</span>
+                                                                <span className={styles.durationTag}>({app.duration.toFixed(1)}s)</span>
+                                                            </div>
+                                                        )
+                                                    ))}
+                                                </div>
+                                            )}
                                         </div>
                                     ))
                                 ) : (
-                                    <div className={styles.empty}>Chờ dữ liệu phân tích...</div>
+                                    <div className={styles.empty}>Chưa có dữ liệu phân tích.</div>
                                 )}
                             </div>
                         </div>

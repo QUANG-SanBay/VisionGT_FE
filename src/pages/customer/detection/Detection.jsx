@@ -16,12 +16,15 @@ const Detection = () => {
             const response = await detectionApi.uploadAndDetect(file);
             const resData = response.data;
             if (resData.success) {
+                // Đảm bảo gán toàn bộ data từ BE vào state
                 setResult({
                     detection_id: resData.detection_id,
-                    file_type: resData.file_type || resData.data.file_type,
-                    output_file: resData.data.output_file,
-                    signs_summary: resData.data.signs_summary || {},
-                    created_at: resData.data.created_at
+                    file_type: resData.file_type || resData.data?.file_type,
+                    output_file: resData.data?.output_file,
+                    signs_summary: resData.data?.signs_summary || {},
+                    duration: resData.data?.duration,
+                    created_at: resData.data?.created_at
+                    
                 });
             } else {
                 setError(resData.message || "Không thể nhận diện");
@@ -46,8 +49,6 @@ const Detection = () => {
                         <AlertCircle size={20} /> {error}
                     </div>
                 )}
-                
-                {/* Dùng KEY để ép React xóa sạch dữ liệu cũ khi Reset */}
                 <ResultBox 
                     key={result ? result.detection_id : 'initial'} 
                     data={result} 
