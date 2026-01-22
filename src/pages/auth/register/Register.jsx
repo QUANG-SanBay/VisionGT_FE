@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { registerApi } from "../../../api/auth";
-import "../login/Login.css";
-import bg from "../../../assets/traffic-bg.jpg";
+import trafficBg from "../../../assets/traffic-bg.jpg";
+import "./register.css";
 
 function Register() {
   const [form, setForm] = useState({
+    fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -18,12 +20,13 @@ function Register() {
     e.preventDefault();
 
     if (form.password !== form.confirmPassword) {
-      alert("Mật khẩu không khớp");
+      alert("Mật khẩu nhập lại không khớp");
       return;
     }
 
     try {
       await registerApi({
+        fullName: form.fullName,
         email: form.email,
         password: form.password,
       });
@@ -37,36 +40,23 @@ function Register() {
     <div
       className="auth-container"
       style={{
-        background: `url(${bg}) no-repeat center center`,
+        backgroundImage: `url(${trafficBg})`,
         backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
     >
       <div className="traffic-layout">
-
-        {/* CỘT CHỦ ĐỀ */}
-        <div className="traffic-icons">
-          <div className="sign-ban">CẤM</div>
-
-          <div className="sign-guide">
-            HỆ THỐNG<br />
-            NHẬN DIỆN<br />
-            BIỂN BÁO<br />
-            THÔNG MINH
-          </div>
-
-          <div className="traffic-light">
-            <div className="light red"></div>
-            <div className="light"></div>
-            <div className="light green"></div>
-          </div>
-        </div>
-
-        {/* FORM ĐĂNG KÝ */}
         <form className="auth-box" onSubmit={handleSubmit}>
           <h2>Đăng ký</h2>
 
           <input
-            type="email"
+            name="fullName"
+            placeholder="Họ và tên"
+            onChange={handleChange}
+            required
+          />
+
+          <input
             name="email"
             placeholder="Email"
             onChange={handleChange}
@@ -91,11 +81,11 @@ function Register() {
 
           <button type="submit">Đăng ký</button>
 
+          {/* LINK CHUYỂN SANG LOGIN */}
           <div className="form-link">
-            <a href="/auth/login">Đã có tài khoản? Đăng nhập</a>
+            Đã có tài khoản? <Link to="/login">Đăng nhập</Link>
           </div>
         </form>
-
       </div>
     </div>
   );

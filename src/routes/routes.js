@@ -1,26 +1,25 @@
-// src/routes/routes.js
-// Define route -> component mapping. Router consumer expects this shape.
-import { Detection, DetectionList, DetectionDetail, Dashboard } from '../pages';
+import authRoutes from "./authRoutes";
+import { Detection, DetectionList, DetectionDetail, Dashboard } from "../pages";
 
-const customRoutes = [
-    {
-        path: '/customer/detection',
-        component: Detection,
-    },
-
-    // Admin routes for managing detections and viewing dashboard
-    {
-        path: '/admin/detections',
-        component: DetectionList,
-    },
-    {
-        path: '/admin/detections/:id',
-        component: DetectionDetail,
-    },
-    {
-        path: '/admin/dashboard',
-        component: Dashboard,
-    },
+const adminRoutes = [
+  {
+    path: "/customer/detection",
+    component: Detection,
+  },
+  {
+    path: "/admin/detections",
+    component: DetectionList,
+  },
+  {
+    path: "/admin/detections/:id",
+    component: DetectionDetail,
+  },
+  {
+    path: "/admin/dashboard",
+    component: Dashboard,
+  },
 ];
+
+const customRoutes = [...authRoutes, ...adminRoutes];
 
 export default customRoutes;
