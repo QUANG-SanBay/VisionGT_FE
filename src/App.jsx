@@ -1,10 +1,16 @@
-import { BrowserRouter } from "react-router-dom";
-import AuthRoutes from "./routes/authRoutes";
+import { useState } from 'react'
+
+import './App.css'
+
+// src/App.jsx
+import { BrowserRouter } from 'react-router-dom';
+import AppRouter from './routes/AppRouter';
 
 function App() {
   return (
     <BrowserRouter>
       <AuthRoutes />
+      <AppRouter />
     </BrowserRouter>
   );
 }
