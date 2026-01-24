@@ -1,0 +1,166 @@
+/* ===== RESET NHẸ ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+/* ===== NỀN TOÀN MÀN HÌNH (BACKGROUND SET TRONG JSX) ===== */
+.auth-container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===== LỚP PHỦ TỐI (GIÚP ĐỌC CHỮ RÕ TRÊN ẢNH) ===== */
+.auth-container::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 0;
+}
+
+/* ===== BỐ CỤC CHÍNH ===== */
+.traffic-layout {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+
+/* ===== ICON GIAO THÔNG ===== */
+.traffic-icons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+/* ===== BIỂN CẤM ===== */
+.sign-ban {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 6px solid #ff4d4f;
+  color: #ff4d4f;
+  font-weight: bold;
+  font-size: 18px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== BIỂN CHỦ ĐỀ ===== */
+.sign-guide {
+  width: 160px;
+  padding: 14px 10px;
+  background: #ffffff;
+  color: #c1121f;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 6px;
+  line-height: 1.4;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== ĐÈN GIAO THÔNG ===== */
+.traffic-light {
+  width: 48px;
+  background: #111827;
+  padding: 10px 8px;
+  border-radius: 12px;
+}
+
+.light {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #9ca3af;
+  margin: 10px auto;
+}
+
+.light.red {
+  background: #ff4d4f;
+}
+
+.light.green {
+  background: #22c55e;
+}
+
+/* ===== FORM ===== */
+.auth-box {
+  background: rgba(255, 255, 255, 0.96);
+  padding: 32px 30px;
+  width: 360px;
+  border-radius: 18px;
+}
+
+/* ===== TIÊU ĐỀ ===== */
+.auth-box h2 {
+  text-align: center;
+  color: #0f4c81;
+  margin-bottom: 22px;
+  font-size: 24px;
+}
+
+/* ===== INPUT ===== */
+.auth-box input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+}
+
+.auth-box input:focus {
+  outline: none;
+  border-color: #1976d2;
+}
+
+/* ===== BUTTON ===== */
+.auth-box button {
+  width: 100%;
+  padding: 12px;
+  background: #0f4c81;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+.auth-box button:hover {
+  background: #09355f;
+}
+
+/* ===== LINK DƯỚI FORM (NẾU CÓ) ===== */
+.auth-box .form-link {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.auth-box .form-link a {
+  color: #1976d2;
+  text-decoration: none;
+}
+
+.auth-box .form-link a:hover {
+  text-decoration: underline;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .traffic-layout {
+    flex-direction: column;
+    gap: 32px;
+  }
+}

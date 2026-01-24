@@ -69,3 +69,15 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+/* ===== FIX LỆCH GIAO DIỆN AUTH (GHI ĐÈ) ===== */
+body {
+  display: flex;
+  justify-content: center;   /* căn ngang */
+  align-items: center;       /* căn dọc */
+}
+
+/* root phải full để con căn giữa */
+#root {
+  width: 100%;
+  min-height: 100vh;
+}

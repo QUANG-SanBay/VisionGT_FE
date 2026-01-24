@@ -1,15 +1,27 @@
-import { useState } from 'react'
-
-import './App.css'
-
-// src/App.jsx
-import { BrowserRouter } from 'react-router-dom';
-import AppRouter from './routes/AppRouter';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Login from "./pages/auth/login/Login";
+import Register from "./pages/auth/register/Register";
+import Profile from "./pages/profile/Profile";
 
 function App() {
   return (
     <BrowserRouter>
+      <AuthRoutes />
       <AppRouter />
+      <Routes>
+        {/* Redirect gốc */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+
+        {/* Auth */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        {/* Profile */}
+        <Route path="/profile" element={<Profile />} />
+
+        {/* Fallback – tránh màn hình trắng */}
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
     </BrowserRouter>
   );
 }
