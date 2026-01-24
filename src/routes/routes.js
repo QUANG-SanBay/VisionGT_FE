@@ -1,9 +1,8 @@
 import React from "react";
 import MainLayout from "../layouts/MainLayout";
 import AdminLayout from "../layouts/AdminLayout";
-
 // Pages
-import { Detection } from "../pages";
+import {  Detection, DetectionList, DetectionDetail, Dashboard  } from "../pages";
 import History from "../pages/History";
 import AdminDashboard from "../pages/admin/dashboard/Dashboard";
 
@@ -55,4 +54,21 @@ const customRoutes = [
   },
 ];
 
-export default customRoutes;
+
+const adminRoutes = [
+  {
+    path: "/admin/detections",
+    component: withAdminLayout(DetectionList),
+  },
+  {
+    path: "/admin/detections/:id",
+    component: withAdminLayout(DetectionDetail),
+  },
+  {
+    path: "/admin/dashboard",
+    component: withAdminLayout(Dashboard),
+  },
+];
+
+
+export default { customRoutes, adminRoutes };
