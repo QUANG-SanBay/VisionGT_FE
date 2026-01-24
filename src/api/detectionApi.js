@@ -22,7 +22,7 @@ const detectionApi = {
     },
 
     getDetectionById: (id) => {
-        return axiosClient.get(`/detection/${id}/`);
+        return axiosClient.get(`/api/recognition/detection/${id}/`);
     },
 
     getDetectionStats: () => {
