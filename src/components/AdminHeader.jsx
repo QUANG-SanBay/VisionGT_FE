@@ -38,16 +38,9 @@ const AdminHeader = ({ user }) => {
         <NavLink to="/admin/users">
           Người dùng
         </NavLink>
-        <NavLink to="/admin/settings">
-          Cài đặt
-        </NavLink>
       </nav>
 
       <div className="admin-right">
-        <div className="admin-notifications">
-          <i className="fas fa-bell"></i>
-          <span className="notification-badge">3</span>
-        </div>
 
         <div className="admin-user" onClick={() => setOpen(!open)}>
           <div className="admin-avatar">
@@ -62,17 +55,9 @@ const AdminHeader = ({ user }) => {
 
         {open && (
           <div className="admin-dropdown">
-            <Link to="/profile" className="admin-dropdown-item">
+            <Link to="/admin/profile" className="admin-dropdown-item">
               <i className="fas fa-user"></i>
               Thông tin cá nhân
-            </Link>
-            <Link to="/admin/settings" className="admin-dropdown-item">
-              <i className="fas fa-cog"></i>
-              Cài đặt hệ thống
-            </Link>
-            <Link to="/" className="admin-dropdown-item">
-              <i className="fas fa-home"></i>
-              Về trang chủ
             </Link>
             <div className="admin-dropdown-divider"></div>
             <div className="admin-dropdown-item logout" onClick={handleLogout}>

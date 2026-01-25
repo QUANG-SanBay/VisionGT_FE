@@ -8,6 +8,7 @@ import {  Detection, DetectionList, DetectionDetail, Dashboard, History  } from 
 import AdminDashboard from "../pages/admin/dashboard/Dashboard";
 import TrafficSigns from "../pages/admin/trafficsigns/TrafficSigns";
 import Users from "../pages/admin/users/Users";
+import AdminProfile from "../pages/admin/profile/AdminProfile";
 import Home from "../pages/customer/home/Home";
 import Profile from "../pages/profile/Profile";
 
@@ -84,6 +85,10 @@ const adminRoutes = [
   {
     path: "/admin/users",
     component: withAdminLayout(Users),
+  },
+  {
+    path: "/admin/profile",
+    component: withAdminLayout(AdminProfile),
   },
 ];
 
