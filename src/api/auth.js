@@ -12,6 +12,23 @@ export const registerApi = (data) => {
   return axios.post(`${API_URL}/register/`, data);
 };
 
+// API đăng xuất
+export const logoutApi = () => {
+  const refreshToken = getRefreshToken();
+  const accessToken = getAccessToken();
+  
+  return axios.post(
+    `${API_URL}/logout/`,
+    { refresh: refreshToken },
+    {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+};
+
 // Lưu tokens vào localStorage
 export const saveTokens = (access, refresh) => {
   localStorage.setItem('access_token', access);

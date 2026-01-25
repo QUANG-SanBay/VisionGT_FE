@@ -1,13 +1,22 @@
 import { useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
+import { User } from "lucide-react";
+import { logoutApi, clearTokens } from "../api/auth";
 import "./AdminHeader.css";
 
 const AdminHeader = ({ user }) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await logoutApi();
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      clearTokens();
+      navigate('/login');
+    }
   };
 
   return (
@@ -45,11 +54,9 @@ const AdminHeader = ({ user }) => {
         </div>
 
         <div className="admin-user" onClick={() => setOpen(!open)}>
-          <img
-            src={user?.avatar || "../assets/images/avatar-default.png"}
-            alt="avatar"
-            className="admin-avatar"
-          />
+          <div className="admin-avatar">
+            <User size={24} />
+          </div>
           <div className="admin-user-info">
             <span className="admin-user-name">{user?.name || "Admin"}</span>
             <span className="admin-user-role">Quản trị viên</span>

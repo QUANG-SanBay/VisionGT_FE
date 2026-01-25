@@ -12,15 +12,7 @@ const ResultBox = ({ data, onBack, onDetect, loading }) => {
     const [detailData, setDetailData] = useState(null);
     const [loadingDetail, setLoadingDetail] = useState(false);
 
-    // Debug: Kiểm tra component re-render
-    useEffect(() => {
-        console.log('\ud83d\udd04 ResultBox render', {
-            hasData: !!data,
-            detectionId: data?.detection_id,
-            fileType: data?.file_type,
-            timestamp: new Date().toLocaleTimeString()
-        });
-    });
+    const currentId = data?.detection_id || data?.id;
 
     const handleViewDetail = async () => {
         if (!data) return;

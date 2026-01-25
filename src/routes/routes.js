@@ -44,7 +44,7 @@ const customRoutes = [
     component: withLayout(Detection),
   },
   {
-    path: "/customer/history",
+    path: "/history",
     component: withLayout(History),
   },
   {
