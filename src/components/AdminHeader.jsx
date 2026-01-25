@@ -59,7 +59,7 @@ const AdminHeader = ({ user }) => {
 
         {open && (
           <div className="admin-dropdown">
-            <Link to="/admin/profile" className="admin-dropdown-item">
+            <Link to="/profile" className="admin-dropdown-item">
               <i className="fas fa-user"></i>
               Thông tin cá nhân
             </Link>

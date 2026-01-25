@@ -24,13 +24,19 @@ export default function Header({ user }) {
 
         {open && (
           <div className="dropdown">
-            <div className="dropdown-item">Thông tin cá nhân</div>
+            <div className="dropdown-item" onClick={() => { navigate("/profile"); setOpen(false); }}>
+              Thông tin cá nhân
+            </div>
 
             {user?.role === "admin" && (
-              <div className="dropdown-item">Quản trị hệ thống</div>
+              <div className="dropdown-item">
+                Quản trị hệ thống
+              </div>
             )}
 
-            <div className="dropdown-item" onClick={() => { navigate("/history"); setOpen(false); }}>Lịch sử nhận diện</div>
+            <div className="dropdown-item" onClick={() => { navigate("/history"); setOpen(false); }}>
+              Lịch sử nhận diện
+            </div>
             <div className="dropdown-item logout">Đăng xuất</div>
           </div>
         )}

@@ -8,6 +8,7 @@ import {  Detection, DetectionList, DetectionDetail, Dashboard  } from "../pages
 import History from "../pages/History";
 import AdminDashboard from "../pages/admin/dashboard/Dashboard";
 import Home from "../pages/customer/home/Home";
+import Profile from "../pages/profile/Profile";
 
 /**
  * NOTE:
@@ -46,6 +47,10 @@ const customRoutes = [
   {
     path: "/history",
     component: withLayout(History),
+  },
+  {
+    path: "/profile",
+    component: withLayout(Profile),
   },
   {
     path: "/admin",
