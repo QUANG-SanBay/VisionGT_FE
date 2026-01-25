@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./Header.css";
 
 export default function Header({ user }) {
@@ -9,7 +9,7 @@ export default function Header({ user }) {
   return (
     <header className="header">
       <div className="header-left">
-        <span className="brand">VisionGT</span>
+        <Link to="/" className="brand">VisionGT</Link>
       </div>
 
 

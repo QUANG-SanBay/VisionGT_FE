@@ -13,7 +13,7 @@ const AdminHeader = ({ user }) => {
   return (
     <header className="admin-header">
       <div className="admin-left">
-        <Link to="/admin" className="admin-brand">
+        <Link to="/admin/dashboard" className="admin-brand">
           <span className="admin-title">VisionGT</span>
           <span className="admin-badge">Admin</span>
         </Link>

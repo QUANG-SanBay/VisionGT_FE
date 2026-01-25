@@ -7,6 +7,7 @@ import Register from "../pages/auth/register/Register";
 import {  Detection, DetectionList, DetectionDetail, Dashboard  } from "../pages";
 import History from "../pages/History";
 import AdminDashboard from "../pages/admin/dashboard/Dashboard";
+import Home from "../pages/customer/home/Home";
 
 /**
  * NOTE:
@@ -36,7 +37,7 @@ const withAdminLayout = (Component) => {
 const customRoutes = [
   {
     path: "/",
-    component: withLayout(Detection),
+    component: withLayout(Home),
   },
   {
     path: "/detection",
@@ -73,10 +74,6 @@ const adminRoutes = [
 ];
 
 const authRoutes = [
-  {
-    path: "/",
-    component: Login,
-  },
   {
     path: "/login",
     component: Login,
