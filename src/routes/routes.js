@@ -4,8 +4,7 @@ import AdminLayout from "../layouts/AdminLayout";
 import Login from "../pages/auth/login/Login";
 import Register from "../pages/auth/register/Register";
 // Pages
-import {  Detection, DetectionList, DetectionDetail, Dashboard  } from "../pages";
-import History from "../pages/History";
+import {  Detection, DetectionList, DetectionDetail, Dashboard, History  } from "../pages";
 import AdminDashboard from "../pages/admin/dashboard/Dashboard";
 import Home from "../pages/customer/home/Home";
 import Profile from "../pages/profile/Profile";
@@ -45,7 +44,7 @@ const customRoutes = [
     component: withLayout(Detection),
   },
   {
-    path: "/history",
+    path: "/customer/history",
     component: withLayout(History),
   },
   {

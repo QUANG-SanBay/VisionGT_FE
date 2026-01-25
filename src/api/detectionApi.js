@@ -17,8 +17,8 @@ const detectionApi = {
         return axiosClient.get(`/recognition/detection/${detectionId}/`);
     },
 
-    getAllDetections: () => {
-        return axiosClient.get('/detection/list/');
+    getHistory: () => {
+        return axiosClient.get('/recognition/history/');
     },
 
     getDetectionById: (id) => {
@@ -27,7 +27,11 @@ const detectionApi = {
 
     getDetectionStats: () => {
         return axiosClient.get('/detection/stats/');
-    }
+    },
+
+    getHistory: () => {
+        return axiosClient.get('/recognition/history/');
+    },
 };
 
 export default detectionApi;
