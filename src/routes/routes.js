@@ -7,6 +7,7 @@ import Register from "../pages/auth/register/Register";
 import {  Detection, DetectionList, DetectionDetail, Dashboard, History  } from "../pages";
 import AdminDashboard from "../pages/admin/dashboard/Dashboard";
 import TrafficSigns from "../pages/admin/trafficsigns/TrafficSigns";
+import Users from "../pages/admin/users/Users";
 import Home from "../pages/customer/home/Home";
 import Profile from "../pages/profile/Profile";
 
@@ -79,6 +80,10 @@ const adminRoutes = [
   {
     path: "/admin/traffic-signs",
     component: withAdminLayout(TrafficSigns),
+  },
+  {
+    path: "/admin/users",
+    component: withAdminLayout(Users),
   },
 ];
 
