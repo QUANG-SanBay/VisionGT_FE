@@ -30,19 +30,15 @@ const AdminHeader = ({ user }) => {
 
       <nav className="admin-nav">
         <NavLink to="/admin/dashboard">
-          <i className="fas fa-chart-line"></i>
           Dashboard
         </NavLink>
-        <NavLink to="/admin/history">
-          <i className="fas fa-history"></i>
-          Lịch sử
+        <NavLink to="/admin/traffic-signs">
+          Biển báo
         </NavLink>
         <NavLink to="/admin/users">
-          <i className="fas fa-users"></i>
           Người dùng
         </NavLink>
         <NavLink to="/admin/settings">
-          <i className="fas fa-cog"></i>
           Cài đặt
         </NavLink>
       </nav>
