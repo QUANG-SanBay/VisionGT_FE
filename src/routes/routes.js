@@ -1,6 +1,8 @@
 import React from "react";
 import MainLayout from "../layouts/MainLayout";
 import AdminLayout from "../layouts/AdminLayout";
+import Login from "../pages/auth/login/Login";
+import Register from "../pages/auth/register/Register";
 // Pages
 import {  Detection, DetectionList, DetectionDetail, Dashboard  } from "../pages";
 import History from "../pages/History";
@@ -70,5 +72,18 @@ const adminRoutes = [
   },
 ];
 
-
-export default { customRoutes, adminRoutes };
+const authRoutes = [
+  {
+    path: "/",
+    component: Login,
+  },
+  {
+    path: "/login",
+    component: Login,
+  },
+  {
+    path: "/register",
+    component: Register,
+  },
+];
+export { customRoutes, adminRoutes, authRoutes };
