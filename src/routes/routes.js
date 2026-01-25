@@ -39,7 +39,7 @@ const customRoutes = [
     component: withLayout(Detection),
   },
   {
-    path: "/customer/detection",
+    path: "/detection",
     component: withLayout(Detection),
   },
   {

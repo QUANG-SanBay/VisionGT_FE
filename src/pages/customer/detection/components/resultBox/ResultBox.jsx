@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './ResultBox.module.scss';
 import { 
     RefreshCcw, Gauge, History, Search, 
@@ -6,10 +6,21 @@ import {
 } from 'lucide-react';
 import detectionApi from '../../../../../api/detectionApi';
 import UploadBox from '../uploadBox/UploadBox';
+import VideoPlayer from './VideoPlayer';
 
 const ResultBox = ({ data, onBack, onDetect, loading }) => {
     const [detailData, setDetailData] = useState(null);
     const [loadingDetail, setLoadingDetail] = useState(false);
+
+    // Debug: Kiểm tra component re-render
+    useEffect(() => {
+        console.log('\ud83d\udd04 ResultBox render', {
+            hasData: !!data,
+            detectionId: data?.detection_id,
+            fileType: data?.file_type,
+            timestamp: new Date().toLocaleTimeString()
+        });
+    });
 
     const handleViewDetail = async () => {
         if (!data) return;
@@ -62,7 +73,10 @@ const ResultBox = ({ data, onBack, onDetect, loading }) => {
                             <div className={styles.imageBox}>
                                 {data ? (
                                     data.file_type === 'video' ? (
-                                        <video src={data.output_file} controls autoPlay className={styles.displayMedia} />
+                                        <VideoPlayer 
+                                            src={data.output_file}
+                                            className={styles.displayMedia}
+                                        />
                                     ) : (
                                         <img src={data.output_file} alt="Result" className={styles.displayMedia} />
                                     )
@@ -163,4 +177,23 @@ const ResultBox = ({ data, onBack, onDetect, loading }) => {
     );
 };
 
-export default ResultBox;
+// Tối ưu re-render với React.memo
+export default React.memo(ResultBox, (prevProps, nextProps) => {
+    // Chỉ re-render khi detection_id thay đổi
+    const prevId = prevProps.data?.detection_id;
+    const nextId = nextProps.data?.detection_id;
+    
+    const shouldNotUpdate = (
+        prevId === nextId &&
+        prevProps.loading === nextProps.loading
+    );
+    
+    console.log('🔍 ResultBox memo check', {
+        prevId,
+        nextId,
+        shouldNotUpdate,
+        willUpdate: !shouldNotUpdate
+    });
+    
+    return shouldNotUpdate;
+});
