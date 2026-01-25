@@ -1,0 +1,122 @@
+.historyPage {
+  width: 100%;
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 40px 0;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  .titleBox {
+    display: flex; align-items: center; gap: 12px;
+    h1 { font-size: 1.6rem; font-weight: 800; color: #0f172a; margin: 0; }
+  }
+  .countBadge {
+    background: #fff; border: 1px solid #e2e8f0; padding: 10px 20px;
+    border-radius: 12px; font-weight: 700; color: #2563eb;
+  }
+}
+
+/* LIST CONTAINER */
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.listItem {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px 24px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  transition: 0.2s;
+
+  &:hover {
+    border-color: #2563eb;
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.05);
+    transform: translateX(5px); // Hiệu ứng đẩy nhẹ sang phải khi di chuột
+  }
+
+  /* Thumbnail bên trái */
+  .thumbnail {
+    width: 100px;
+    height: 70px;
+    background: #0f172a;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img { width: 100%; height: 100%; object-fit: cover; }
+    
+    .videoIconBox {
+      display: flex; flex-direction: column; align-items: center; color: #fff;
+      span { font-size: 0.6rem; font-weight: 800; margin-top: 4px; text-transform: uppercase; }
+    }
+  }
+
+  /* Thông tin ở giữa */
+  .mainInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .topRow {
+      display: flex; align-items: center; gap: 12px;
+      .sessionId { font-weight: 800; font-size: 1.1rem; color: #0f172a; }
+      .typeBadge {
+        font-size: 0.65rem; font-weight: 800; padding: 2px 8px; border-radius: 4px;
+        &.video { background: #dbeafe; color: #1e40af; }
+        &.image { background: #f1f5f9; color: #475569; }
+      }
+    }
+
+    .bottomRow {
+      display: flex; gap: 20px;
+      .metaItem {
+        display: flex; align-items: center; gap: 6px;
+        font-size: 0.85rem; color: #64748b; font-weight: 600;
+        b { color: #2563eb; }
+      }
+    }
+  }
+
+  /* Nút xem chi tiết */
+  .actionArea {
+    .viewBtn {
+      background: transparent; border: 1.5px solid #e2e8f0;
+      color: #0f172a; padding: 10px 20px; border-radius: 10px;
+      font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px;
+      transition: 0.2s;
+      &:hover { background: #0f172a; color: #fff; border-color: #0f172a; }
+    }
+  }
+}
+
+/* Detail Wrapper */
+.detailWrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.loadingState {
+  text-align: center; padding: 100px 0; color: #64748b;
+  .spin { animation: spin 1s linear infinite; margin-bottom: 15px; }
+}
+
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }

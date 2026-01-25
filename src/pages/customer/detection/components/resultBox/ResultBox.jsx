@@ -11,11 +11,13 @@ const ResultBox = ({ data, onBack, onDetect, loading }) => {
     const [detailData, setDetailData] = useState(null);
     const [loadingDetail, setLoadingDetail] = useState(false);
 
+    const currentId = data?.detection_id || data?.id;
+
     const handleViewDetail = async () => {
         if (!data) return;
         setLoadingDetail(true);
         try {
-            const response = await detectionApi.getDetectionDetail(data.detection_id);
+            const response = await detectionApi.getDetectionDetail(currentId);
             setDetailData(response.data);
         } catch (error) {
             alert("Không thể tải chi tiết pháp luật.");
@@ -33,7 +35,7 @@ const ResultBox = ({ data, onBack, onDetect, loading }) => {
                     <div className={styles.mainTitle}>
                         <LayoutDashboard size={28} color="#2563eb" />
                         <div>
-                            <h1>{data ? `Phiên nhận diện #${data.detection_id}` : 'Hệ thống nhận diện biển báo'}</h1>
+                            <h1>{data ? `Phiên nhận diện #${currentId}` : 'Hệ thống nhận diện biển báo'}</h1>
                             {data?.duration && (
                                 <div className={styles.miniMeta}>
                                     Thời lượng: {data.duration.toFixed(2)}s

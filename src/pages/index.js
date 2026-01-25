@@ -1,6 +1,7 @@
 // Central exports for pages used by the router
 // Keep exports small and explicit so routes can import named components
 export { default as Detection } from './customer/detection/Detection';
+export { default as History } from './customer/history/History';
 
 // Admin pages for managing detections and dashboard
 export { default as DetectionList } from './admin/detections/DetectionList';
