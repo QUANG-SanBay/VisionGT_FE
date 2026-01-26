@@ -6,6 +6,11 @@ import Register from "../pages/auth/register/Register";
 // Pages
 import {  Detection, DetectionList, DetectionDetail, Dashboard, History  } from "../pages";
 import AdminDashboard from "../pages/admin/dashboard/Dashboard";
+import TrafficSigns from "../pages/admin/trafficsigns/TrafficSigns";
+import Users from "../pages/admin/users/Users";
+import AdminProfile from "../pages/admin/profile/AdminProfile";
+import Home from "../pages/customer/home/Home";
+import Profile from "../pages/profile/Profile";
 
 /**
  * NOTE:
@@ -35,15 +40,19 @@ const withAdminLayout = (Component) => {
 const customRoutes = [
   {
     path: "/",
+    component: withLayout(Home),
+  },
+  {
+    path: "/detection",
     component: withLayout(Detection),
   },
   {
-    path: "/customer/detection",
-    component: withLayout(Detection),
-  },
-  {
-    path: "/customer/history",
+    path: "/history",
     component: withLayout(History),
+  },
+  {
+    path: "/profile",
+    component: withLayout(Profile),
   },
   {
     path: "/admin",
@@ -69,13 +78,21 @@ const adminRoutes = [
     path: "/admin/dashboard",
     component: withAdminLayout(Dashboard),
   },
+  {
+    path: "/admin/traffic-signs",
+    component: withAdminLayout(TrafficSigns),
+  },
+  {
+    path: "/admin/users",
+    component: withAdminLayout(Users),
+  },
+  {
+    path: "/admin/profile",
+    component: withAdminLayout(AdminProfile),
+  },
 ];
 
 const authRoutes = [
-  {
-    path: "/",
-    component: Login,
-  },
   {
     path: "/login",
     component: Login,

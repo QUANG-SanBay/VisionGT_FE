@@ -1,0 +1,275 @@
+// Traffic Signs Management
+.container {
+  padding: 2rem;
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+
+// Header
+.header {
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: #718096;
+    font-size: 1rem;
+  }
+}
+
+// Loading
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 1rem;
+
+  p {
+    color: #718096;
+    font-size: 1rem;
+  }
+}
+
+// Alert
+.alert {
+  margin-bottom: 1.5rem;
+}
+
+// Toolbar
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  .searchField {
+    flex: 1;
+    max-width: 500px;
+    background: white;
+  }
+
+  .actions {
+    display: flex;
+    gap: 1rem;
+  }
+}
+
+// Table Card
+.tableCard {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+
+  table {
+    thead {
+      background: #f7fafc;
+
+      th {
+        font-weight: 600;
+        color: #4a5568;
+        padding: 1rem;
+        border-bottom: 2px solid #e2e8f0;
+      }
+    }
+
+    tbody {
+      tr {
+        transition: background 0.2s;
+
+        &:hover {
+          background: #f7fafc;
+        }
+
+        td {
+          padding: 1rem;
+          color: #2d3748;
+          border-bottom: 1px solid #e2e8f0;
+        }
+      }
+    }
+  }
+}
+
+// Sign Code
+.signCode {
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+  color: #2196f3;
+  background: #e3f2fd;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+// Model ID
+.modelId {
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+  color: #9c27b0;
+  background: #f3e5f5;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+// Action Buttons
+.actionButtons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+// Empty State
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  color: #a0aec0;
+
+  svg {
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+}
+
+// Detail View
+.detailView {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem 0;
+
+  .detailRow {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+
+    strong {
+      min-width: 150px;
+      color: #4a5568;
+      font-weight: 600;
+    }
+
+    span {
+      flex: 1;
+      color: #2d3748;
+      line-height: 1.6;
+
+      &.emptyValue {
+        color: #a0aec0;
+        font-style: italic;
+      }
+    }
+
+    a {
+      color: #2196f3;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+// Loading Dialog
+.loadingDialog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  gap: 1rem;
+
+  p {
+    color: #718096;
+    font-size: 0.95rem;
+  }
+}
+
+// Empty Dialog
+.emptyDialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  color: #a0aec0;
+
+  p {
+    font-size: 1rem;
+  }
+}
+
+// Form Grid
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+
+  > *:nth-child(3),
+  > *:nth-child(7) {
+    grid-column: 1 / -1;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .header {
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+
+    .searchField {
+      max-width: 100%;
+    }
+
+    .actions {
+      justify-content: stretch;
+
+      button {
+        flex: 1;
+      }
+    }
+  }
+
+  .tableCard {
+    overflow-x: auto;
+
+    table {
+      min-width: 800px;
+    }
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+
+    > *:nth-child(3),
+    > *:nth-child(7) {
+      grid-column: 1;
+    }
+  }
+}

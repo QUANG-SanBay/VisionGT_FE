@@ -29,8 +29,9 @@ const detectionApi = {
         return axiosClient.get('/detection/stats/');
     },
 
-    getHistory: () => {
-        return axiosClient.get('/recognition/history/');
+    // Lấy tất cả detections (Admin)
+    getAllDetections: (params) => {
+        return axiosClient.get('/recognition/history/', { params });
     },
 };
 

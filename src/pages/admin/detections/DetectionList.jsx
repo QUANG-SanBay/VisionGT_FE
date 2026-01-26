@@ -16,7 +16,8 @@ import {
     InputAdornment,
     Chip,
     IconButton,
-    Tooltip
+    Tooltip,
+    Card
 } from '@mui/material';
 import { Search as SearchIcon, RefreshCw, Eye, AlertTriangle, Filter, Calendar } from 'lucide-react';
 import styles from './Detections.module.scss';

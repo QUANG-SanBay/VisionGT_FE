@@ -3,7 +3,7 @@ import styles from './History.module.scss';
 import detectionApi from '../../../api/detectionApi';
 import { 
     Calendar, FileVideo, ImageIcon, 
-    ChevronRight, Loader2, History as HistoryIcon, Clock
+    ChevronRight, Loader2, History as HistoryIcon, Clock, ArrowLeft
 } from 'lucide-react';
 import ResultBox from '../detection/components/resultBox/ResultBox';
 
@@ -40,6 +40,15 @@ const History = () => {
     if (selectedItem) {
         return (
             <div className={styles.detailWrapper}>
+                <div className={styles.backButtonContainer}>
+                    <button 
+                        className={styles.backButton}
+                        onClick={() => setSelectedItem(null)}
+                    >
+                        <ArrowLeft size={20} />
+                        Quay lại lịch sử
+                    </button>
+                </div>
                 <ResultBox 
                     data={selectedItem} 
                     onBack={() => setSelectedItem(null)} 
