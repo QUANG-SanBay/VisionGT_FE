@@ -44,7 +44,7 @@ function Login() {
         if (userRole === 'admin') {
           navigate('/admin/dashboard');
         } else {
-          navigate('/detection');
+          navigate('/');
         }
       } else {
         setError("Phản hồi từ server không hợp lệ");
