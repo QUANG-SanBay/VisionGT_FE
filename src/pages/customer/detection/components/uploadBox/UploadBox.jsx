@@ -10,6 +10,16 @@ const UploadBox = ({ onDetected, loading }) => {
         return () => { if (preview) URL.revokeObjectURL(preview); };
     }, [preview]);
 
+    // Reset preview và file khi có kết quả mới (component được render lại với loading = false)
+    useEffect(() => {
+        if (!loading && preview) {
+            console.log('🔄 Resetting upload preview after detection');
+            if (preview) URL.revokeObjectURL(preview);
+            setPreview(null);
+            setFile(null);
+        }
+    }, [loading]);
+
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
         if (selectedFile) {

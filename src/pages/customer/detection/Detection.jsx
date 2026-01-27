@@ -20,6 +20,8 @@ const Detection = () => {
 
     const handleDetect = useCallback(async (file) => {
         console.log('🚀 Starting detection...');
+        // Reset kết quả cũ trước khi bắt đầu detection mới
+        setResult(null);
         setLoading(true);
         setError(null);
         try {

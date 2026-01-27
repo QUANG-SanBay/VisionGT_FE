@@ -1,28 +1,10 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 
-const VideoPlayer = ({ src, className }) => {
+const VideoPlayer = ({ src, className, onTimeUpdate }) => {
     const videoRef = useRef(null);
     const mountTimeRef = useRef(Date.now());
 
     // Debug logging
-    useEffect(() => {
-        console.log('🎬 VideoPlayer mounted', {
-            src,
-            mountTime: new Date(mountTimeRef.current).toLocaleTimeString()
-        });
-
-        return () => {
-            console.log('🎬 VideoPlayer unmounted', {
-                src,
-                lifetime: Date.now() - mountTimeRef.current
-            });
-        };
-    }, [src]);
-
-    // Event handlers với debugging
-    const handleLoadStart = useCallback(() => {
-        console.log('📹 Video load start');
-    }, []);
 
     const handleLoadedMetadata = useCallback(() => {
         if (videoRef.current) {
@@ -92,14 +74,15 @@ const VideoPlayer = ({ src, className }) => {
 
     const handleTimeUpdate = useCallback(() => {
         if (videoRef.current) {
-            const progress = (videoRef.current.currentTime / videoRef.current.duration * 100).toFixed(1);
-            console.log('⏱️ Video time update', {
-                currentTime: videoRef.current.currentTime.toFixed(2),
-                duration: videoRef.current.duration.toFixed(2),
-                progress: `${progress}%`
-            });
+            const currentTime = videoRef.current.currentTime;
+            const progress = (currentTime / videoRef.current.duration * 100).toFixed(1);
+            
+            // Gửi currentTime về parent component để highlight realtime
+            if (onTimeUpdate) {
+                onTimeUpdate(currentTime);
+            }
         }
-    }, []);
+    }, [onTimeUpdate]);
 
     const handleAbort = useCallback(() => {
         console.warn('⚠️ Video abort - Loading was interrupted');
@@ -147,7 +130,6 @@ const VideoPlayer = ({ src, className }) => {
             className={className}
             preload="auto"
             crossOrigin="anonymous"
-            onLoadStart={handleLoadStart}
             onLoadedMetadata={handleLoadedMetadata}
             onCanPlay={handleCanPlay}
             onPlay={handlePlay}

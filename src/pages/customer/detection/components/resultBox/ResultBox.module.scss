@@ -129,23 +129,41 @@
   padding: 18px;
   border-radius: 12px;
   margin-bottom: 12px;
-  border: 1px solid #8eafdb;
+  border: 2px solid #e2e8f0;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  transition: 0.2s ease;
+  transition: all 0.3s ease;
 
   &:hover { 
     border-color: #2563eb; 
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
   }
 
+  // HIỆU ỨNG REALTIME KHI BIỂN BÁO ĐANG XUẤT HIỆN
+  &.activeItem {
+    border-color: #10b981 !important;
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4), 0 0 40px rgba(16, 185, 129, 0.2);
+    animation: pulseGlow 1.5s ease-in-out infinite;
+    transform: scale(1.02);
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.4), 0 0 40px rgba(16, 185, 129, 0.2);
+    }
+    50% {
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.6), 0 0 60px rgba(16, 185, 129, 0.3);
+    }
+  }
+
   .itemTop {
     display: flex; justify-content: space-between; align-items: center;
     .itemName { 
       font-weight: 800; 
-      color: #0f172a; // Chữ đen sâu
-      font-size: 1.05rem; // Chữ to hơn
+      color: #0f172a;
+      font-size: 1.05rem;
     }
     .itemCount { 
       background: #1e40af; 
@@ -165,33 +183,102 @@
     }
   }
 
-  .appearancesBox {
-    margin-top: 6px;
-    padding: 12px;
-    background: #f8fafc; // Nền xanh xám nhạt để nổi bật vùng thời gian
+  // NÚT TOGGLE XEM CHI TIẾT MỐC THỜI GIAN
+  .toggleBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    margin-top: 8px;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
     border-radius: 8px;
-    border: 1px solid #f1f5f9;
+    color: #475569;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #e2e8f0;
+      border-color: #94a3b8;
+      color: #1e293b;
+    }
+
+    .toggleIcon {
+      transition: transform 0.3s ease;
+      
+      &.rotated {
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  .appearancesBox {
+    margin-top: 10px;
+    padding: 14px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
+    animation: slideDown 0.3s ease-out;
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        max-height: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        max-height: 500px;
+        transform: translateY(0);
+      }
+    }
 
     .boxLabel {
-      font-size: 0.65rem;
+      font-size: 0.7rem;
       color: #64748b;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 2px;
+      margin-bottom: 4px;
     }
 
     .appRow {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 0.9rem; // Giây xuất hiện to rõ
-      color: #1e40af; // Xanh lam đậm chuyên nghiệp
+      padding: 10px 12px;
+      font-size: 0.9rem;
+      color: #1e40af;
       font-weight: 700;
       font-family: 'Courier New', Courier, monospace;
+      background: #ffffff;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      transition: all 0.2s ease;
+
+      &:hover {
+        border-color: #94a3b8;
+        background: #f8fafc;
+      }
+
+      // HIỆU ỨNG KHI MỐC THỜI GIAN ĐANG ACTIVE
+      &.activeAppRow {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        border-color: #10b981;
+        box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+        animation: highlightRow 0.5s ease-in-out;
+      }
+
+      @keyframes highlightRow {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.03); }
+      }
 
       svg { color: #94a3b8; }
       .arrow { color: #cbd5e1; font-weight: 400; font-size: 1rem; }
@@ -199,11 +286,27 @@
       .durationTag { 
         color: #1e40af; 
         font-size: 0.75rem; 
-        font-weight: 700; 
-        margin-left: auto;
-        background: #dbeafe; // Tag thời lượng
-        padding: 2px 8px;
+        font-weight: 700;
+        background: #dbeafe;
+        padding: 3px 8px;
         border-radius: 4px;
+      }
+
+      .confidenceTag {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: #059669;
+        font-size: 0.75rem;
+        font-weight: 800;
+        background: #d1fae5;
+        padding: 3px 8px;
+        border-radius: 4px;
+        margin-left: auto;
+
+        svg {
+          color: #059669;
+        }
       }
     }
   }
